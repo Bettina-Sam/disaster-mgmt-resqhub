@@ -1,7 +1,7 @@
 # 🚀 Live Demo
 
 🌐 Live Site
-*(Will be added after deployment)*
+disaster-mgmt-resqhub.netlify.app
 
 ---
 
