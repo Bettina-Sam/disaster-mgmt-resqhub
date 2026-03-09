@@ -1,66 +1,112 @@
-\# ResQHub – Disaster Management Suite
+# 🚀 Live Demo
+
+🌐 Live Site
+*(Will be added after deployment)*
+
+---
+
+# 🌍 ResQHub – AI Powered Disaster Management Platform
+
+ResQHub is an **AI-powered disaster management and preparedness platform** designed to assist individuals during emergency situations.
+It provides **real-time guidance, voice-enabled assistance, preparedness resources, and interactive learning modules** to help users respond effectively to natural disasters.
+
+The platform combines **AI assistance, voice interaction, multilingual accessibility, and disaster awareness education** into one modern web experience.
+
+---
+
+# ✨ Key Features
+
+🔐 **Interactive Login Experience**
+Demo login system with mascot interaction and engaging UI.
+
+📊 **Disaster Awareness Dashboard**
+Central hub providing emergency preparedness information and response guidance.
+
+🤖 **AI Disaster Assistance Chatbot**
+Powered by **Google Gemini AI**, capable of answering disaster-related questions and providing safety advice.
+
+🎙️ **ResQVoice – Voice Assistant**
+Voice-enabled interaction allowing users to speak with the AI assistant.
+
+🌐 **Multilingual Support**
+
+* 🇬🇧 English
+* 🇮🇳 Hindi
+* 🇮🇳 Tamil
+
+Language switching reflects across the platform.
+
+📚 **Preparedness Academy**
+
+* Disaster safety lessons
+* Interactive quizzes
+* Certificates of completion
+* Learning modules for awareness
+
+🎮 **Interactive Learning Games**
+Educational mini-games designed to teach disaster preparedness concepts.
+
+🧘 **Breathing & Calm Support Tools**
+Guided breathing exercises to help users stay calm during stressful situations.
+
+📱 **Responsive Design**
+Optimized for **desktop, tablet, and mobile devices**.
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+⚛️ React
+🧭 React Router
+🎨 Modern CSS UI
+
+## AI Integration
+
+🧠 Google Gemini AI
+🎙 Voice assistant integration
+🌐 Multilingual UI system
+
+## Deployment
+
+🐙 GitHub
+🚀 Netlify
+
+---
+
+# 🎯 Project Goal
+
+ResQHub aims to improve:
+
+✔ Disaster awareness
+✔ Emergency preparedness
+✔ AI-assisted crisis support
+✔ Multilingual safety communication
+✔ Accessible disaster education
+
+The project demonstrates how **AI and modern web technologies can support communities during emergencies.**
+
+---
 
 
+# 👩‍💻 Developer
 
-Modules: Disaster Dashboard, AcadMent (Academy), Quizzes \& Certificates, Games/Simulators, ResQVoice.
+**Bettina Anne Sam**
 
+Software Engineer | Developer
+Passionate about building **AI-driven interactive platforms and impactful technology solutions.**
 
+---
 
-\## Monorepo
+# 📌 Future Enhancements
 
-\- `client/` — frontend (React/Vite)
+* Real-time disaster alert integration
+* Location-based emergency notifications
+* Community emergency reporting
+* Mobile application version
+* Offline disaster preparedness resources
 
-\- `server/` — backend (Node/Express, MongoDB)
+---
 
-
-
-\## Quick Start (Dev)
-
-\### Backend
-
-1\) `cd server`
-
-2\) `npm install`
-
-3\) Create `.env` with:
-
-&nbsp;  - `PORT=5000`
-
-&nbsp;  - `MONGODB\_URI=<your MongoDB connection string>`
-
-&nbsp;  - `JWT\_SECRET=<any strong secret>`
-
-&nbsp;  - `CLIENT\_URL=http://localhost:5173`
-
-4\) `npm run dev`
-
-
-
-\### Frontend
-
-1\) `cd client`
-
-2\) `npm install`
-
-3\) Create `.env` with:
-
-&nbsp;  - `VITE\_API\_URL=http://localhost:5000`
-
-4\) `npm run dev`
-
-
-
-\## Scripts
-
-\- server: `npm run dev` (nodemon)
-
-\- client: `npm run dev` (Vite)
-
-
-
-\## Notes
-
-\- Don’t commit `.env` or `node\_modules/` (handled by .gitignore).
-
-
-
+⭐ If you found this project useful, feel free to **star the repository**!
