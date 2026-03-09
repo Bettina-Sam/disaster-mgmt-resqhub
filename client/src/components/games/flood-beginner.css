@@ -1,0 +1,94 @@
+/* Scoped to FloodBeginner only */
+.flood-beginner .fb-card{
+  background: var(--g-card, #141c2d);
+  border:1px solid var(--g-border, #2a3757);
+  border-radius:16px; box-shadow: var(--g-shadow, 0 10px 30px rgba(0,0,0,.35));
+  padding:12px;
+}
+.flood-beginner .fb-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.flood-beginner .fb-title{font-weight:900;font-size:16px;letter-spacing:.2px}
+.flood-beginner .fb-muted{color:var(--g-muted, #a7b3d1)}
+.flood-beginner .fb-actions{display:flex;align-items:center;gap:8px}
+.flood-beginner .fb-pill{
+  padding:6px 10px;border-radius:999px;background:var(--g-soft,#172237);
+  border:1px solid var(--g-border,#2a3757);color:var(--g-ink,#e9efff);font-weight:700;
+}
+.flood-beginner .fb-btn{
+  border:1px solid var(--g-border,#2a3757);background:var(--g-soft,#172237);
+  color:var(--g-ink,#e9efff);border-radius:10px;padding:6px 10px;font-weight:800;
+}
+.flood-beginner .fb-btn.cta{
+  background:var(--g-accent,#2dc5f4);border-color:var(--g-accentSoft,#1e90bb);color:#06121e;
+}
+.flood-beginner .fb-btn.danger{ background:#dc2626; border-color:#b91c1c; }
+.flood-beginner .fb-btn.soft:hover{ filter:brightness(1.06); }
+
+.flood-beginner .fb-grid{display:grid;gap:14px;grid-template-columns:2fr 1fr}
+@media(max-width:900px){ .flood-beginner .fb-grid{grid-template-columns:1fr} }
+
+.flood-beginner .fb-panel{
+  background:var(--g-cardHi,#1b2540);border:1px solid var(--g-border,#2a3757);
+  border-radius:14px;padding:8px;
+}
+.flood-beginner .fb-inv{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;padding:12px}
+.flood-beginner .fb-item{
+  user-select:none;padding:12px;border:1px solid var(--g-border,#2a3757);border-radius:14px;
+  text-align:center;background:var(--g-soft,#172237);cursor:grab;transition:transform .12s ease, box-shadow .12s ease;
+}
+.flood-beginner .fb-item:hover{outline:2px solid rgba(46,197,244,.35); transform: translateY(-2px); box-shadow:0 12px 20px rgba(0,0,0,.18);}
+.flood-beginner .fb-item.good{ box-shadow:0 0 0 2px rgba(34,197,94,.45) inset; animation: fb-pop .28s ease; }
+.flood-beginner .fb-item.focus{ outline:2px solid rgba(46,197,244,.55); }
+
+.flood-beginner .fb-item-label{ margin-top:6px; font-weight:600; }
+
+.flood-beginner .fb-pack{
+  background:var(--g-cardHi,#1b2540);border:2px dashed rgba(46,197,244,.45);
+  border-radius:16px; min-height:240px; padding:12px; display:flex; flex-direction:column; gap:10px;
+}
+.flood-beginner .fb-pack-head{ display:flex; align-items:center; justify-content:space-between; }
+.flood-beginner .fb-pack-title{ display:flex; align-items:center; gap:8px; }
+.flood-beginner .fb-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.flood-beginner .fb-chip{
+  display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;background:var(--g-soft,#172237);
+  border:1px solid var(--g-border,#2a3757);
+}
+.flood-beginner .fb-chip.good{ box-shadow:0 0 0 2px rgba(34,197,94,.45) inset; }
+.flood-beginner .fb-chip.bad{ box-shadow:0 0 0 2px rgba(239,68,68,.45) inset; }
+.flood-beginner .fb-drop{ width:100%; }
+
+.flood-beginner .fb-bottom{ display:flex; justify-content:space-between; margin-top:10px; }
+
+.flood-beginner .fb-overlay{ position:fixed; inset:0; display:grid; place-items:center; background:rgba(6,12,24,.45); backdrop-filter: blur(2px); }
+.flood-beginner .fb-result{
+  background:var(--g-card,#141c2d); border:1px solid var(--g-border,#2a3757);
+  border-radius:16px; padding:18px 20px; min-width:280px; text-align:center;
+  box-shadow:var(--g-shadow,0 10px 30px rgba(0,0,0,.35)); animation: fb-pop .18s ease-out both;
+}
+.flood-beginner .fb-result-title{ font-weight:900; font-size:22px; letter-spacing:.3px; }
+.flood-beginner .fb-result-title.win{ color:#22c55e; }
+.flood-beginner .fb-result-title.lose{ color:#ef4444; }
+.flood-beginner .fb-result-sub{ color:var(--g-muted,#a7b3d1); margin-top:6px; }
+
+.emo-lg{ font-size:40px; line-height:1; }
+.emo-xl{ font-size:48px; line-height:1; }
+
+/* DANCING EMOJI — the important bit */
+.g-dance{
+  display:inline-block;
+  animation: fb-dance 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 6px 14px rgba(46,197,244,.25));
+}
+@keyframes fb-dance{
+  0%{transform:translateY(0) rotate(0)}
+  25%{transform:translateY(-6px) rotate(-6deg)}
+  50%{transform:translateY(0) rotate(0)}
+  75%{transform:translateY(-6px) rotate(6deg)}
+  100%{transform:translateY(0) rotate(0)}
+}
+
+@keyframes fb-pop { 0%{transform:scale(.92);opacity:.8} 100%{transform:scale(1);opacity:1} }
+
+/* Confetti (light) */
+.confetti{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:9999}
+.confetti .p{position:absolute;width:8px;height:14px;opacity:.9;animation:fb-fall 900ms cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes fb-fall{0%{transform:translateY(-20px) rotate(0)}100%{transform:translateY(40px) rotate(260deg);opacity:0}}

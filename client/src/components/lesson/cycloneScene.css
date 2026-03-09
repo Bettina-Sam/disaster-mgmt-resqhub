@@ -1,0 +1,76 @@
+/* ---- Overlay root: fixed, above cards, no click-through except tools/people ---- */
+.cyclone-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 7;                  /* sits above lesson cards */
+  pointer-events: none;        /* lesson stays clickable */
+  background: transparent;     /* no dimming */
+}
+
+/* ---- Common positioning helper (we set these via JS) ---- */
+.cyclone-scene .cy-person,
+.cyclone-scene .cy-cyclone,
+.cyclone-scene .cy-shelter,
+.cyclone-scene .cy-particle {
+  position: fixed;
+  transform: translate(-50%, -50%);
+}
+
+/* ---- People (draggable) ---- */
+.cy-person {
+  font-size: 30px;
+  filter: drop-shadow(0 0 10px rgba(0, 220, 255, 0.6));
+  transition: transform 120ms linear, opacity 220ms ease;
+  pointer-events: auto;        /* allow drag */
+  cursor: grab;
+  user-select: none;
+}
+.cy-person:active { cursor: grabbing; }
+
+/* optional tiny bounce to feel alive */
+.cy-person.glow {
+  animation: cy-breathe 2.4s ease-in-out infinite;
+}
+@keyframes cy-breathe {
+  0%,100% { transform: translate(-50%, -50%) scale(1.00); }
+  50%     { transform: translate(-50%, -50%) scale(1.05); }
+}
+
+/* ---- Cyclone 🌪 ---- */
+.cy-cyclone {
+  font-size: 36px;
+  filter: drop-shadow(0 0 12px rgba(150, 220, 255, 0.65));
+  animation: cy-spin 1.05s linear infinite;
+}
+@keyframes cy-spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ---- Shelter 🏠 (bottom-left) ---- */
+.cy-shelter {
+  left: 80px;                 /* initial values are also set by JS; CSS is just a fallback */
+  bottom: 80px;
+  font-size: 42px;
+  transform: translate(-50%, 0);  /* anchor at bottom-left better visually */
+  pointer-events: none;            /* we don’t drag shelter */
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.35));
+}
+
+/* ---- Particle burst on engulf ---- */
+.cy-particle {
+  color: rgba(255,255,255,0.9);
+  font-size: 18px;
+  animation: cy-pop 0.7s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes cy-pop {
+  0%   { opacity: 1; transform: translate(calc(var(--dx, 0)), calc(var(--dy, 0))) scale(1); }
+  100% { opacity: 0; transform: translate(calc(var(--dx, 0) * 1.6), calc(var(--dy, 0) * 1.6)) scale(0.6); }
+}
+
+/* ---- Mobile scale a bit down so it doesn't overwhelm ---- */
+@media (max-width: 780px) {
+  .cy-person   { font-size: 26px; }
+  .cy-cyclone  { font-size: 48px; }
+  .cy-shelter  { font-size: 36px; left: 64px; bottom: 64px; }
+}

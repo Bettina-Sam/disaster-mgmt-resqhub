@@ -1,0 +1,102 @@
+/* container */
+.l-wrap { max-width: 1200px; margin: 0 auto; padding: 10px 16px 32px; }
+
+/* header */
+.l-header {
+  position: sticky; top: 8px; z-index: 2;
+  display: grid; grid-template-columns: auto 1fr auto; gap: 16px;
+  align-items: center; padding: 14px 16px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(8,14,30,.5);
+  backdrop-filter: blur(8px);
+}
+.l-hero-float { font-size: clamp(36px, 5vw, 52px); line-height: 1; animation: lFloat 5s ease-in-out infinite; filter: drop-shadow(0 4px 10px rgba(0,0,0,.25)); }
+@keyframes lFloat { 0%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-6px) rotate(2deg)} 100%{transform:translateY(0) rotate(0)} }
+
+.l-title { margin: 0 0 6px 0; font-weight: 700; letter-spacing: .3px; }
+.l-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.l-intro { margin: 8px 0 0; opacity: .95; }
+.l-head-actions { display: flex; gap: 8px; align-items: center; }
+.l-cta { padding-inline: 14px; }
+
+/* pills with tones */
+.g-pill { border-radius: 999px; padding: 4px 10px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06); font-size: .85rem; }
+.l-pill-info   { background: rgba(56,189,248,.12);  border-color: rgba(56,189,248,.28); }
+.l-pill-danger { background: rgba(248,113,113,.12); border-color: rgba(248,113,113,.28); }
+.l-pill-primary{ background: rgba(99,102,241,.12);  border-color: rgba(99,102,241,.28); }
+.l-pill-warn   { background: rgba(250,204,21,.12);  border-color: rgba(250,204,21,.28); }
+.l-pill-muted  { background: rgba(255,255,255,.06);  border-color: rgba(255,255,255,.16); }
+
+/* grid */
+.l-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+.l-col-2 { grid-column: span 12; }
+@media (min-width: 900px) {
+  .l-col-2 { grid-column: span 12; }
+  .l-card:not(.l-col-2) { grid-column: span 6; }
+}
+
+/* cards */
+.l-card {
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(10,14,28,.55);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  padding: 14px 16px;
+  transform: translateY(8px);
+  opacity: 0;
+  transition: transform .28s ease, opacity .28s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.l-card:hover { box-shadow: 0 10px 26px rgba(0,0,0,.25); border-color: rgba(255,255,255,.14); }
+.reveal-in { transform: translateY(0); opacity: 1; }
+
+/* headings and lists */
+.l-h { font-weight: 700; letter-spacing: .2px; margin-bottom: 8px; }
+.l-list { margin: 0; padding-left: 18px; }
+.l-list > li + li { margin-top: 6px; }
+
+/* tags */
+.l-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.l-tag { background: rgba(255,255,255,.06); }
+
+/* subblocks */
+.l-subblock { margin-top: 8px; }
+.l-subtitle { font-weight: 700; margin-bottom: 6px; opacity: .95; }
+
+/* tips */
+.l-tips { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.l-tip {
+  display: flex; align-items: center; gap: 8px;
+  border: 1px dashed rgba(255,255,255,.16);
+  background: rgba(255,255,255,.04);
+  border-radius: 12px; padding: 10px 12px;
+}
+.l-tip-emoji { font-size: 18px; }
+
+/* checklist */
+.l-check { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.l-check-row { display: flex; gap: 10px; align-items: center; cursor: pointer; user-select: none; }
+.l-check-row input { width: 18px; height: 18px; }
+
+/* utility */
+.g-card { border-radius: 14px; }
+/* in lessonsTheme.css */
+.l-hero-float { display: none !important; }
+
+.lesson-scene {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;  /* never block clicking cards/checkboxes */
+  z-index: 0;            /* behind your cards */
+}
+
+.l-wrap {               /* your main lesson wrapper */
+  position: relative;
+  z-index: 1;
+}
+
+

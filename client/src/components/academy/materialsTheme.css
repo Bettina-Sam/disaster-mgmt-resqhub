@@ -1,0 +1,68 @@
+/* grid layout */
+.materials-wrap { }
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+/* floaty hero + tilt */
+.emo-xl { font-size: clamp(28px, 5.3vw, 48px); line-height: 1; }
+.mat-float { animation: matFloat 4.5s ease-in-out infinite; transform-origin: 50% 60%; }
+@keyframes matFloat {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+.mat-card {
+  position: relative;
+  border: 1px solid var(--g-border, rgba(255,255,255,.08));
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  will-change: transform;
+  animation: matIn .38s ease both;
+}
+@keyframes matIn { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+.mat-card:hover { transform: translateY(-4px) rotate3d(0.5, 1, 0, 3deg); border-color: rgba(255,255,255,.18); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+.mat-card:focus { outline: 0; box-shadow: 0 0 0 3px rgba(99,102,241,.45); }
+
+/* title + meta */
+.mat-title { font-weight: 600; letter-spacing: .2px; }
+.mat-meta { opacity: .9; }
+
+/* tags with micro-bounce */
+.chip.mat-tag { background: rgba(255,255,255,.06); border: 1px dashed rgba(255,255,255,.14); border-radius: 999px; padding: 4px 10px; font-size: .82rem; }
+.mat-card:hover .chip.mat-tag { animation: tagPop .6s ease; }
+@keyframes tagPop { 0% { transform: scale(1); } 30% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* level pill */
+.mat-level { background: rgba(255,255,255,.06); }
+
+/* click ripple */
+.mat-ripple {
+  position: absolute; width: 280px; height: 280px; border-radius: 50%;
+  transform: translate(-50%, -50%); pointer-events: none;
+  background: radial-gradient(circle, rgba(255,255,255,.15) 0%, rgba(255,255,255,0) 60%);
+  animation: ripple .5s ease-out forwards;
+}
+@keyframes ripple { from { opacity: .7; transform: translate(-50%,-50%) scale(.2); } to { opacity: 0; transform: translate(-50%,-50%) scale(1); } }
+
+/* search input */
+.materials-search { min-width: 220px; }
+
+/* skeletons */
+.mat-skeleton { overflow: hidden; }
+.shimmer {
+  position: relative; background: rgba(255,255,255,.06); border-radius: 12px; overflow: hidden;
+}
+.shimmer::after {
+  content: ""; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+  animation: shimmer 1.6s infinite;
+}
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+.mat-hero-skel { height: 42px; width: 42px; border-radius: 12px; }
+.mat-title-skel { height: 16px; margin-top: 14px; border-radius: 8px; }
+.mat-tags-skel { height: 28px; margin-top: 12px; border-radius: 12px; }
+
+.emoji-pop { position: fixed; font-size: 22px; pointer-events: none; will-change: transform, opacity; }

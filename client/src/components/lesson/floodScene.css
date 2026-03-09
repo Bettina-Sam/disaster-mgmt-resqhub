@@ -1,0 +1,88 @@
+.flood-scene{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* waterline overlay */
+.flood-scene::after{
+  content:"";
+  position: absolute;
+  left:0; right:0; bottom:0;
+  top: var(--waterY, 70%);
+  background: linear-gradient(180deg, rgba(70,140,200,.18) 0%, rgba(40,100,180,.28) 60%, rgba(20,60,120,.38) 100%);
+  backdrop-filter: blur(1px) saturate(1.1);
+}
+
+/* runner */
+.fl-runner{
+  position: absolute;
+  font-size: 1.6rem;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,.55));
+  animation: flBounce 1s ease-in-out infinite;
+}
+@keyframes flBounce{
+  0%,100%{ transform: translateY(0) }
+  50%{ transform: translateY(-1.5px) }
+}
+.fl-fade{ opacity:0; transition: opacity .16s ease; }
+.fl-buoyant{ filter: drop-shadow(0 0 10px rgba(255,255,255,.8)); }
+
+/* waves */
+.fl-wave{
+  position:absolute;
+  font-size: 1.7rem;
+  filter: drop-shadow(0 0 8px rgba(65,150,255,.55));
+  animation: flBob 2.4s ease-in-out infinite;
+}
+@keyframes flBob{
+  0%,100%{ transform: translateY(-1px) rotate(-2deg); }
+  50%{ transform: translateY(1px) rotate(2deg); }
+}
+
+/* buoy */
+.fl-buoy{
+  position: absolute;
+  font-size: 1.7rem;
+  left: 0; top: 0;
+  transform: translate(-50%,-50%);
+  z-index: 3;
+  pointer-events: auto;     /* draggable */
+  cursor: grab;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,.7));
+}
+.fl-buoy:active{ cursor: grabbing; }
+
+/* bubbles */
+.fl-bubble{
+  position:absolute;
+  font-size: .9rem;
+  color: rgba(220,240,255,.9);
+  text-shadow: 0 0 6px rgba(200,230,255,.5);
+  animation: flBubble .9s ease-out forwards;
+}
+@keyframes flBubble{
+  to{
+    transform: translate(var(--dx), var(--dy));
+    opacity: 0;
+    filter: blur(1px);
+  }
+}
+
+/* small spark when buoy applied */
+.fl-spark{
+  position:absolute; font-size:1.3rem;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,.8));
+  animation: flSpark .5s ease-out forwards;
+}
+@keyframes flSpark{
+  from{ transform: scale(.9); opacity:.9 }
+  to{ transform: scale(1.1); opacity:0 }
+}
+
+/* floodScene.css */
+.flood-scene,
+.flood-scene::after {
+  pointer-events: none;   /* lets you click the checklist etc. */
+}

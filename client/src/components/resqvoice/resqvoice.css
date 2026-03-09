@@ -1,0 +1,88 @@
+/* ===== ResQVoice — scoped UI ===== */
+.resqvoice {
+  --bg: #0f1623;
+  --card: #111827;
+  --panel: #0f172a;
+  --border: rgba(255,255,255,.10);
+  --white: #fff;
+  --muted: #cbd5e1;
+  background: var(--bg);
+  color: var(--white);
+  min-height: 100vh;
+}
+
+/* stop global .btn / button rules from flattening our UI */
+.resqvoice :where(button) {
+  all: unset;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Header */
+.resqvoice .rv-header {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(17,24,39,.75);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.resqvoice .rv-header-inner {
+  max-width: 1120px; margin: 0 auto; padding: 0 16px;
+  height: 60px; display: flex; align-items: center; gap: 10px;
+}
+.resqvoice .rv-badge { width: 36px; height: 36px; border-radius: 12px;
+  display: grid; place-items: center; background: #3b82f6; font-size: 18px; }
+.resqvoice .rv-title { font-weight: 800; font-size: 18px; letter-spacing: .2px; }
+.resqvoice .rv-select {
+  height: 36px; border-radius: 10px; border: 1px solid var(--border);
+  background: #0b1220; color: #e5e7eb; padding: 0 10px;
+}
+.resqvoice .rv-voice {
+  height: 36px; border-radius: 10px; padding: 0 14px; font-weight: 700;
+  background: #3b82f6; color: #fff;
+}
+.resqvoice .rv-voice.off { background: #1f2937; color: #e5e7eb; }
+
+/* Page container */
+.resqvoice .rv-main { max-width: 1040px; margin: 0 auto; padding: 40px 16px 112px; }
+
+/* Headline */
+.resqvoice .rv-h2 { font-size: 32px; font-weight: 900; text-align: center; margin: 8px 0 6px; }
+.resqvoice .rv-sub { font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 28px; }
+
+/* Tiles grid */
+.resqvoice .rv-grid { display: grid; gap: 20px; }
+@media (min-width: 900px) { .resqvoice .rv-grid { grid-template-columns: 1fr 1fr; gap: 28px; } }
+
+.resqvoice .rv-tile {
+  min-height: 220px; border-radius: 22px; padding: 28px;
+  color: var(--white); box-shadow: 0 14px 40px rgba(0,0,0,.30);
+  transform: translateZ(0); transition: transform .18s ease;
+}
+.resqvoice .rv-tile:hover { transform: scale(1.01); }
+
+.resqvoice .rv-grad-talk   { background: linear-gradient(135deg,#5ba0ff 0%,#2ec5ff 100%); }
+.resqvoice .rv-grad-calm   { background: linear-gradient(135deg,#35d2ff 0%,#2ea1ff 100%); }
+.resqvoice .rv-grad-grief  { background: linear-gradient(135deg,#c16bff 0%,#f07ad9 100%); }
+.resqvoice .rv-grad-report { background: linear-gradient(135deg,#ff6a6a 0%,#ff7e33 100%); }
+
+.resqvoice .rv-emoji { font-size: 56px; margin-bottom: 22px; filter: drop-shadow(0 6px 12px rgba(0,0,0,.25)); }
+.resqvoice .rv-t { font-size: 28px; font-weight: 800; }
+.resqvoice .rv-s { margin-top: 4px; font-size: 15px; color: rgba(255,255,255,.95); }
+
+/* Bottom mic bar */
+.resqvoice .rv-micbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  background: rgba(11,18,32,.92); border-top: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+.resqvoice .rv-mic-inner {
+  max-width: 1120px; margin: 0 auto; padding: 12px 16px;
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+}
+.resqvoice .rv-mic {
+  width: 60px; height: 60px; border-radius: 999px; display: grid; place-items: center;
+  font-size: 22px; color: #fff; background: #2f7efb !important;
+  box-shadow: 0 12px 32px rgba(47,126,251,.55); transition: transform .12s ease;
+}
+.resqvoice .rv-mic:active { transform: scale(.96); }
+.resqvoice .rv-tip { font-size: 13px; color: var(--muted); }

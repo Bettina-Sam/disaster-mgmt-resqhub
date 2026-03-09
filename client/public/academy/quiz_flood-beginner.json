@@ -1,0 +1,30 @@
+{
+  "slug": "quiz-flood-beginner",
+  "title": "Flood Safety — Level 1",
+  "disaster": "FLOOD",
+  "level": "BEGINNER",
+  "passingScore": 70,
+  "timeLimit": 0,
+  "questions": [
+    {
+      "type": "MCQ",
+      "q": "What’s the safest action when you see water covering the road?",
+      "choices": ["Drive slowly through it", "Turn around and find another route", "Follow the car ahead", "Speed up to clear it"],
+      "answer": 1,
+      "explain": "Just 15–30 cm of moving water can sweep a car away."
+    },
+    {
+      "type": "TF",
+      "q": "You should switch off electricity before evacuating if it’s safe to do so.",
+      "answer": true,
+      "explain": "Cutting power reduces electrocution risk when water rises."
+    },
+    {
+      "type": "MCQ",
+      "q": "Pick a *must have* for a flood go-bag:",
+      "choices": ["Sunscreen only", "Water purification tablets", "Skateboard", "Garden hose"],
+      "answer": 1,
+      "explain": "Clean drinking water is critical after floods."
+    }
+  ]
+}

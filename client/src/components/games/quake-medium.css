@@ -1,0 +1,233 @@
+/* ================================
+   Quake — Medium (Aftershock Drill)
+   Namespaced: .qm-*
+   ================================ */
+
+/* --- layout shell --- */
+.qm-wrap{
+  max-width:1100px;margin:0 auto;padding:16px;
+}
+
+.qm-card{
+  background:rgba(8,16,32,.45);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  box-shadow:0 18px 44px rgba(0,0,0,.45);
+  overflow:hidden;
+}
+
+/* header row (title + controls) */
+.qm-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px 8px 16px;
+  gap:12px;
+}
+
+.qm-title{
+  font-weight:900;letter-spacing:.3px;font-size:18px;color:#e8f0ff;
+  display:flex;align-items:center;gap:10px;
+}
+.qm-title .dot{
+  width:8px;height:8px;border-radius:50%;background:#60a5fa;display:inline-block;
+  box-shadow:0 0 0 4px rgba(96,165,250,.18);
+}
+
+/* small UI pills/buttons */
+.qm-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:999px;font-weight:800;
+  color:#e6eeff;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 4px 12px rgba(0,0,0,.25);
+}
+.qm-btn{
+  padding:8px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.06);color:#e6eeff;font-weight:800;
+  transition:transform .12s ease, filter .12s ease;
+}
+.qm-btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.qm-btn.cta{
+  background:linear-gradient(180deg,#60a5fa,#3b82f6);
+  border-color:#3b82f6;color:#06101e;
+  box-shadow:0 8px 22px rgba(59,130,246,.35);
+}
+.qm-btn.danger{
+  background:linear-gradient(180deg,#ef4444,#dc2626);
+  border-color:#b91c1c;color:#fff;box-shadow:0 8px 22px rgba(239,68,68,.3);
+}
+
+/* bottom info row */
+.qm-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:10px 14px 14px 14px;
+}
+.qm-tip{
+  color:#c8d6ff;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);border-radius:12px;
+  padding:10px 14px;font-weight:600;
+}
+.qm-score{
+  padding:8px 12px;border-radius:999px;font-weight:900;color:#0b1220;
+  background:#a7f3d0;border:1px solid #6ee7b7;
+  box-shadow:0 6px 14px rgba(16,185,129,.25);
+}
+
+/* --- board --- */
+.qm-board{
+  position:relative;
+  height:560px;
+  margin:6px 12px 12px 12px;
+  border-radius:16px;
+  background:linear-gradient(180deg, rgba(8,16,32,.55), rgba(6,12,24,.7));
+  border:1px solid rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+/* optional faint grid lines (3x3 feel) */
+.qm-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: calc(100%/3) calc(100%/3);
+}
+
+/* edges between nodes (path lines) */
+.qm-edge{
+  position:absolute;height:8px;border-radius:8px;
+  background:linear-gradient(90deg, rgba(56,189,248,.25), rgba(56,189,248,.75));
+  filter:drop-shadow(0 6px 16px rgba(56,189,248,.25));
+}
+.qm-edge.used{
+  background:linear-gradient(90deg, rgba(255,255,255,.35), rgba(255,255,255,.95));
+}
+
+/* --- nodes: emoji-first, caption under, bigger tap targets --- */
+.qm-node{
+  position:absolute;transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:120px;height:120px;border-radius:18px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 12px 28px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.06);
+  transition:transform .12s ease, background .12s ease, box-shadow .12s ease;
+  cursor:pointer;user-select:none;
+  padding:8px 6px; gap:4px;
+}
+.qm-node:hover{
+  transform:translate(-50%,-50%) scale(1.04);
+  background:rgba(56,189,248,.12);
+}
+.qm-node.inpath{
+  box-shadow:0 0 0 2px rgba(56,189,248,.35) inset, 0 12px 28px rgba(0,0,0,.38);
+}
+.qm-node.last{
+  box-shadow:0 0 0 2px rgba(255,255,255,.55) inset, 0 12px 28px rgba(0,0,0,.38);
+}
+
+.qm-node .emo{
+  font-size:44px; line-height:1; filter:drop-shadow(0 8px 16px rgba(0,0,0,.35));
+}
+.qm-node .cap{
+  margin-top:2px; font-weight:900; letter-spacing:.2px;
+  color:#dbe7ff; text-shadow:0 1px 0 rgba(0,0,0,.25);
+}
+
+/* small corner badges for hazards/bonuses/start/goal */
+.qm-node .badge{
+  position:absolute; right:8px; top:8px; font-size:16px;
+  filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));
+}
+.qm-node .badge.goal{right:auto;left:8px}
+.qm-node .badge.start{right:auto;left:8px}
+
+/* hazard / good state hints */
+.qm-node.hz-elevator .badge.elevator{animation:elev-warn 1.1s ease-in-out infinite}
+@keyframes elev-warn {0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+
+.qm-node.hz-glass .emo{animation:glint-soft 2.2s ease-in-out infinite}
+@keyframes glint-soft {
+  0%,100%{filter:drop-shadow(0 8px 16px rgba(0,0,0,.35))}
+  50%{filter:drop-shadow(0 12px 22px rgba(0,0,0,.5))}
+}
+
+.qm-node.hz-smoke .emo{animation:smoke-soft 3s ease-in-out infinite}
+@keyframes smoke-soft {
+  0%{opacity:.8;filter:blur(0)}
+  50%{opacity:1;filter:blur(1px)}
+  100%{opacity:.8;filter:blur(0)}
+}
+
+.qm-node.good-stairs{
+  box-shadow:0 0 0 2px rgba(16,185,129,.4) inset, 0 12px 28px rgba(0,0,0,.38);
+}
+
+/* --- overlays (coach or end-of-run) --- */
+.qm-overlay{
+  position:absolute;inset:0;background:rgba(8,12,20,.55);
+  backdrop-filter:blur(2px);display:grid;place-items:center;
+  z-index:50;
+}
+.qm-overlay .center{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;padding:16px 18px;text-align:center;color:#e6eeff;
+  min-width:280px;box-shadow:0 18px 44px rgba(0,0,0,.45);
+}
+.qm-overlay .title{font-weight:900;font-size:20px;margin-bottom:6px}
+.qm-overlay .title.win{color:#34d399}
+.qm-overlay .title.lose{color:#ef4444}
+.qm-overlay .sub{opacity:.9}
+
+/* --- responsive tweaks --- */
+@media (max-width: 900px){
+  .qm-node{width:104px;height:104px}
+  .qm-node .emo{font-size:40px}
+}
+@media (max-width: 700px){
+  .qm-node{width:96px;height:96px}
+  .qm-node .emo{font-size:36px}
+  .qm-board{height:520px}
+}
+
+/* Planned path = the one the player drew (glows cyan) */
+.qm-edge.planned{
+  background:linear-gradient(90deg, rgba(34,211,238,.15), rgba(34,211,238,.85));
+  box-shadow:0 8px 20px rgba(34,211,238,.25);
+}
+
+/* Active path while running (glows lime) */
+.qm-edge.active{
+  background:linear-gradient(90deg, rgba(16,185,129,.25), rgba(16,185,129,.95));
+  box-shadow:0 8px 24px rgba(16,185,129,.35);
+}
+
+/* Runner */
+.qm-runner{
+  position:absolute; width:38px; height:38px;
+  display:grid; place-items:center;
+  transform:translate(-50%, -50%);
+  border-radius:999px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 10px 24px rgba(0,0,0,.35);
+  pointer-events:none;
+  z-index:8;
+}
+.qm-runner .emo{ font-size:22px; line-height:1 }
+
+
+/* result overlay */
+.qm-overlay{
+  position:fixed; inset:0; display:grid; place-items:center;
+  background:rgba(6,12,24,.45); backdrop-filter:blur(2px); z-index:9998;
+}
+.qm-center{
+  background:var(--qm-card,#0d1729); border:1px solid rgba(255,255,255,.06);
+  border-radius:16px; padding:18px 22px; min-width:280px; text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); animation:qm-pop .18s ease both;
+}
+@keyframes qm-pop{0%{transform:scale(.94);opacity:0}100%{transform:scale(1);opacity:1}}
+.qm-title2{font-weight:900; font-size:22px; letter-spacing:.3px}
+.qm-title2.win{color:#22c55e}
+.qm-title2.lose{color:#ef4444}
+.qm-sub2{color:#9fb3d9; margin-top:6px}

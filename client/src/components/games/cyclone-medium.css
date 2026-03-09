@@ -1,0 +1,130 @@
+:root{
+  --cm-bg:#0b1020; --cm-card:#121a31; --cm-border:#23304f;
+  --cm-good:#22c55e; --cm-warn:#f59e0b; --cm-bad:#ef4444; --cm-accent:#2dc5f4;
+  --cm-text:#e6eeff; --cm-muted:#9db0d1; --cm-radius:16px;
+}
+*{box-sizing:border-box}
+.cm-wrap{display:flex;flex-direction:column;gap:12px;background:var(--cm-bg);padding:14px;border-radius:var(--cm-radius);color:var(--cm-text)}
+.cm-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.cm-title{font-weight:700}
+.dot{display:inline-block;width:8px;height:8px;background:#2dc5f4;border-radius:50%;margin-right:6px}
+.cm-row{display:flex;gap:8px;align-items:center}
+.cm-pill{background:#17223d;color:var(--cm-muted);padding:6px 10px;border-radius:999px}
+.cm-btn{background:#1b2848;color:#cfe1ff;border:1px solid var(--cm-border);border-radius:10px;padding:6px 10px;cursor:pointer}
+.cm-btn.on{background:#204d7a;color:#fff;border-color:#2a78b8}
+.cm-btn.cta{background:#0ea5e9;color:white;border-color:#32b5f1}
+.cm-btn.cta2{background:#14b8a6;color:white;border-color:#1cc7b5}
+.cm-btn.soft{background:#111a31}
+.cm-btn.danger{background:#7a2030}
+
+.cm-board{position:relative;background:var(--cm-card);border:1px solid var(--cm-border);border-radius:var(--cm-radius);min-height:460px;overflow:hidden}
+.cm-edge{position:absolute;background:#21406f;opacity:.8}
+.cm-edge.planned{box-shadow:0 0 0 1px #2d4b86 inset}
+.cm-edge.active{background:#2dc5f4;box-shadow:0 0 6px #2dc5f4}
+
+.cm-node{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px}
+.cm-node .emo{font-size:52px}
+.cm-node .cap{font-size:12px;color:var(--cm-muted);background:#0f162b;padding:3px 8px;border:1px solid var(--cm-border);border-radius:8px}
+.cm-node.inpath .cap{color:#e6eeff;border-color:#2d4b86}
+.cm-node.last .cap{outline:2px solid var(--cm-accent)}
+.cm-node.risky .cap{background:#2a1110;border-color:#4d1f1b;color:#ffd6d6}
+
+.cm-runner{position:absolute;transform:translate(-50%,-50%)}
+
+.cm-tip{color:var(--cm-muted);margin-top:6px}
+
+.cm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+.cm-center{background:#0f162b;border:1px solid var(--cm-border);border-radius:14px;padding:16px 20px;max-width:520px;text-align:center}
+.cm-title2{font-weight:900;font-size:26px;margin-bottom:6px}
+.cm-title2.win{color:var(--cm-good)}
+.cm-title2.lose{color:var(--cm-bad)}
+.cm-sub2{color:var(--cm-muted)}
+
+/* ===================== */
+/*   FUN ANIMATIONS 🎉   */
+/* ===================== */
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .dance, .bob, .shimmer, .pulse, .warn, .sparkle { 
+    animation: none !important; 
+    transition: none !important; 
+  }
+}
+
+/* Floaty up-down for general emojis (nodes) */
+@keyframes floatY {
+  0%   { transform: translateY(0);   }
+  50%  { transform: translateY(-6px);}
+  100% { transform: translateY(0);   }
+}
+.dance {
+  animation: floatY 2.2s ease-in-out infinite;
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Gentle bob for the runner */
+@keyframes bobY {
+  0%   { transform: translateY(0) rotate(0deg); }
+  50%  { transform: translateY(-4px) rotate(0deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+.bob {
+  animation: bobY 0.9s ease-in-out infinite;
+}
+
+/* Risky nodes: subtle red pulse + shake when very risky */
+@keyframes pulseRed {
+  0%,100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.0); }
+  50%     { box-shadow: 0 0 12px 2px rgba(239,68,68,0.35); }
+}
+@keyframes tinyShake {
+  0%,100% { transform: translate(-50%,-50%) rotate(0deg); }
+  25%     { transform: translate(calc(-50% + 1px),calc(-50% + 0px)) rotate(0.2deg); }
+  75%     { transform: translate(calc(-50% - 1px),calc(-50% - 1px)) rotate(-0.2deg); }
+}
+.cm-node.risky .cap {
+  animation: pulseRed 1.6s ease-in-out infinite;
+}
+.cm-node.risky {
+  /* only a hint of shake on the tile */
+  animation: tinyShake 0.9s ease-in-out infinite;
+}
+
+/* Path shimmer when RUN */
+@keyframes shimmer {
+  0%   { background-position: 0% 0; }
+  100% { background-position: 200% 0; }
+}
+.cm-edge.active {
+  /* replace the solid color with a moving gradient line */
+  background: linear-gradient(90deg, #2dc5f4 0%, #7cc8ff 40%, #2dc5f4 80%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+  box-shadow: 0 0 8px #2dc5f4;
+}
+
+/* A little sparkle on safe/high-ground nodes */
+@keyframes sparkle {
+  0%,100% { filter: drop-shadow(0 0 0 rgba(45,197,244,0)); }
+  50%     { filter: drop-shadow(0 0 6px rgba(45,197,244,0.45)); }
+}
+.cm-node.inpath .emo.dance {
+  animation-duration: 1.6s; /* a bit peppier when on the chosen path */
+}
+.cm-node.inpath .cap {
+  animation: sparkle 1.8s ease-in-out infinite;
+}
+
+/* Subtle neon for the Surge pill to make the UI feel alive */
+@keyframes glow {
+  0%,100% { box-shadow: 0 0 0 rgba(20,184,166,0); }
+  50%     { box-shadow: 0 0 12px rgba(20,184,166,0.35); }
+}
+.cm-pill:nth-of-type(2) { /* the 🌊 Surge pill in your top row */
+  animation: glow 2.2s ease-in-out infinite;
+}
+
+/* Optional: “tap feedback” on nodes */
+.cm-node:active .emo { transform: scale(0.96); }

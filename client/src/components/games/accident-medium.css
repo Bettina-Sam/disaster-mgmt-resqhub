@@ -1,0 +1,80 @@
+:root{
+  --cell: 40px;
+  --bg:#0a0f1e; --panel:#0f1830; --ink:#eaf3ff; --muted:#a8bedf;
+}
+
+.am-wrap{background:var(--bg); color:var(--ink); border-radius:14px; padding:12px; border:1px solid #1b2b4d}
+.am-top{display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; align-items:center}
+.am-title{font-weight:700}
+.am-row{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.am-pill{background:#18264a; color:var(--muted); padding:8px 12px; border-radius:999px; border:1px solid #223762}
+.am-btn{cursor:pointer; padding:8px 12px; border-radius:10px; border:1px solid #2b4580; background:#152450; color:#e6f0ff}
+.am-btn.cta2{background:#22c55e; color:#07240f; border-color:#2bd06f}
+.am-btn.on{background:#2563eb}
+
+.grid-board{
+  display:grid;
+  margin-top:12px;
+  background:var(--panel);
+  border:1px solid #2a406e;
+  border-radius:12px;
+  overflow:hidden;
+  position:relative;
+  user-select:none;
+  touch-action:none;
+}
+
+.cell2{
+  background:#112650;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+  width:var(--cell);
+  height:var(--cell);
+  position:relative;
+}
+
+/* absolute pieces anchored to grid origin */
+.piece{
+  position:absolute; left:0; top:0;
+  width:var(--cell); height:var(--cell);
+  display:grid; place-items:center; pointer-events:none;
+}
+
+.emo{font-size:28px; line-height:1}
+.player{font-size:30px; filter:drop-shadow(0 0 6px #00f7ff)}
+.hazard{animation:floatY 1.4s ease-in-out infinite}
+.supply{animation:floatY 2s ease-in-out infinite; filter:drop-shadow(0 0 8px rgba(255,255,255,.4))}
+
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+.pin{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-size:20px}
+.pin.start{filter:drop-shadow(0 0 5px red)}
+.pin.exit{filter:drop-shadow(0 0 5px lime)}
+
+.center-overlay{position:fixed; inset:0; background:rgba(0,0,0,.6); display:grid; place-items:center; z-index:10}
+.center-card{background:#0f1830; padding:18px 24px; border-radius:12px; border:1px solid #3754a0}
+.center-title{font-weight:700; margin-bottom:4px}
+.center-win{color:#53ffa1}
+.center-lose{color:#ff7070}
+.dot{width:8px; height:8px; background:#35d2ff; display:inline-block; border-radius:999px; margin-right:6px}
+
+/* Legend strip */
+.am-legend{
+  margin:8px 0 4px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.legend-pill{
+  display:flex; align-items:center; gap:6px;
+  padding:6px 10px;
+  font-size:14px;
+  background:#101a36;
+  border:1px solid #223762;
+  border-radius:999px;
+  color:#cfe0ff;
+}
+.legend-pill span{ font-size:18px; line-height:1 }
+
+/* (already present but keep here for clarity)
+   The grid gets explicit width/height from JS so it fills the left area */
+.grid-board{ /* existing rules stay */ }

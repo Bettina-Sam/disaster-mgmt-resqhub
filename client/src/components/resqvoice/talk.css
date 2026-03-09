@@ -1,0 +1,104 @@
+/* ===== ResQVoice Talk (scoped) ===== */
+.rv-talk { color:#fff; }
+
+.rv-talk .rv-card{
+  max-width:980px; margin:28px auto; padding:18px;
+  background:#0f172a; border:1px solid rgba(255,255,255,.1);
+  border-radius:24px;
+  box-shadow:0 28px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
+  animation: tv-floatIn .35s ease both, tv-bob 7s ease-in-out infinite;
+}
+
+.rv-talk .rv-rowTop{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.rv-talk .rv-title{ font-weight:900; font-size:22px; letter-spacing:.2px; }
+.rv-talk .rv-actions{ display:flex; gap:10px; align-items:center; }
+.rv-talk .rv-close{
+  background: rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.12);
+  color:#fff; border-radius:12px; padding:6px 10px;
+}
+.rv-talk .rv-chip{
+  border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:6px 10px;
+  background: rgba(255,255,255,.08); color:#e5e7eb; transition:.15s ease;
+}
+.rv-talk .rv-chip:hover{ filter: brightness(1.08); transform: translateY(-1px); }
+.rv-talk .rv-chip-on{ background:#2563eb; color:#fff; }
+
+/* Board (messages) */
+.rv-talk .rv-board{
+  position:relative;
+  margin-top:12px; margin-bottom:12px;
+  height: 420px; overflow: auto;
+  border:1px solid rgba(255,255,255,.12); border-radius:18px;
+  background: radial-gradient(1200px 300px at 50% -10%, rgba(102,163,255,.07), transparent 60%), #0e1526;
+  padding: 14px;
+}
+
+/* Bubbles */
+.rv-talk .rv-bubble{ display:flex; margin:8px 0; }
+.rv-talk .rv-bubble.user{ justify-content: flex-end; }
+.rv-talk .rv-bubble.assistant{ justify-content: flex-start; }
+
+.rv-talk .rv-bubble .rv-text{
+  max-width: 74%;
+  padding: 10px 12px;
+  border-radius: 16px;
+  line-height: 1.35;
+  font-size: 15px;
+  box-shadow: 0 14px 38px rgba(0,0,0,.35);
+  animation: tv-pop .18s ease both;
+}
+.rv-talk .rv-bubble.user .rv-text{
+  background:#2563eb; color:#fff;
+  border: 1px solid rgba(255,255,255,.15);
+}
+.rv-talk .rv-bubble.assistant .rv-text{
+  background: rgba(255,255,255,.06); color:#e5e7eb;
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+/* Interim caption chip */
+.rv-talk .rv-interim{
+  position: sticky; bottom: 8px; left: 0; right: 0;
+  margin: 8px auto 0; width: fit-content; max-width: 90%;
+  background:#1f2a41; color:#dbeafe; font-size:12px;
+  padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12);
+  box-shadow: 0 12px 30px rgba(0,0,0,.35);
+}
+
+/* Composer */
+.rv-talk .rv-compose{ display:flex; gap:10px; align-items:center; }
+.rv-talk .rv-input{
+  flex:1; height:44px; padding:0 12px;
+  border-radius:12px; border:1px solid rgba(255,255,255,.12);
+  background:#12172a; color:#e5e7eb; outline:none;
+}
+.rv-talk .rv-mic{
+  width:50px; height:44px; border-radius:12px; display:grid; place-items:center; font-size:20px;
+  background:#22c55e; color:#00100b; border:1px solid rgba(255,255,255,.1);
+  box-shadow: 0 12px 30px rgba(34,197,94,.35); transition:.12s;
+}
+.rv-talk .rv-mic:hover{ filter:brightness(1.05); transform: translateY(-1px); }
+.rv-talk .rv-mic.rv-pulse{ animation: tv-pulse 1.2s ease-in-out infinite; }
+
+.rv-talk .rv-btn{
+  height:44px; padding:0 16px; border-radius:12px; font-weight:900;
+  background:#2563eb; color:#fff; box-shadow:0 12px 30px rgba(37,99,235,.35); transition:.12s;
+}
+.rv-talk .rv-btn:hover{ filter:brightness(1.06); transform: translateY(-1px); }
+
+/* Confetti particles */
+.rv-talk .rv-burst{
+  position:absolute; font-size:18px; pointer-events:none; transform:translate(-50%,-50%);
+  animation: tv-burst .7s cubic-bezier(.2,.7,.2,1) forwards;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,.4));
+}
+
+/* Animations */
+@keyframes tv-floatIn{ from{opacity:0; transform: translateY(10px) scale(.98);} to{opacity:1; transform: translateY(0) scale(1);} }
+@keyframes tv-bob{ 0%,100%{ transform: translateY(0)} 50%{ transform: translateY(-6px)} }
+@keyframes tv-pop{ from{ opacity:0; transform: translateY(6px) scale(.98);} to{opacity:1; transform: translateY(0) scale(1);} }
+@keyframes tv-pulse{ 0%,100%{ box-shadow: 0 12px 30px rgba(34,197,94,.35);} 50%{ box-shadow: 0 16px 40px rgba(34,197,94,.65);} }
+@keyframes tv-burst{
+  0%{ opacity:1; transform: translate(-50%,-50%) scale(1) rotate(0);}
+  100%{ opacity:0; transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(.6) rotate(var(--rot)); }
+}

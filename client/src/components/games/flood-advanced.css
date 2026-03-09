@@ -1,0 +1,173 @@
+/* Scoped styles for Advanced Flood — Safe Route Scout */
+.rv-flood-adv { color:#fff; }
+
+.rv-flood-adv .rvfa-card{
+  max-width: 980px; margin: 24px auto; padding: 16px;
+  background: #0f1324; border:1px solid rgba(255,255,255,.1); border-radius: 20px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
+  animation: rvfa-in .35s ease both, rvfa-bob 7s ease-in-out infinite;
+}
+
+.rv-flood-adv .rvfa-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.rv-flood-adv .rvfa-title{ font-weight:900; font-size: 20px; }
+.rv-flood-adv .rvfa-actions{ display:flex; gap:8px; align-items:center; }
+
+.rv-flood-adv .rvfa-close,
+.rv-flood-adv .rvfa-chip{
+  border:1px solid rgba(255,255,255,.12); border-radius: 12px; padding:6px 10px;
+  background: rgba(255,255,255,.08); color:#e5e7eb; transition:.15s;
+}
+.rv-flood-adv .rvfa-chip.on{ background:#2563eb; color:#fff; }
+.rv-flood-adv .rvfa-close:hover,
+.rv-flood-adv .rvfa-chip:hover{ filter:brightness(1.08); transform: translateY(-1px); }
+
+.rv-flood-adv .rvfa-sub{ margin:6px 0 10px; color:#cbd5e1; }
+
+.rv-flood-adv .rvfa-hud{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px; }
+.rv-flood-adv .rvfa-pill{
+  border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:6px 10px; background:rgba(255,255,255,.06);
+}
+.rv-flood-adv .rvfa-row{ display:flex; gap:8px; }
+.rv-flood-adv .rvfa-btn{
+  height:40px; padding:0 14px; border-radius:12px; font-weight:900; transition:.12s; border:1px solid rgba(255,255,255,.1);
+  background:#1b2340; color:#e5e7eb;
+}
+.rv-flood-adv .rvfa-btn:hover{ filter:brightness(1.06); transform: translateY(-1px); }
+.rv-flood-adv .rvfa-btn.cta{ background:#2563eb; color:#fff; box-shadow: 0 12px 30px rgba(37,99,235,.35); }
+.rv-flood-adv .rvfa-btn.soft{ background:rgba(255,255,255,.08); }
+.rv-flood-adv .rvfa-btn.danger{ background:#ef4444; color:#1a0d0d; }
+
+.rv-flood-adv .rvfa-legend{
+  display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+  border:1px dashed rgba(255,255,255,.12); border-radius:12px; padding:8px 10px; margin-bottom:8px;
+  background: rgba(255,255,255,.04);
+}
+.rv-flood-adv .rvfa-legend .lg{ display:inline-block; width:18px; height:14px; border-radius:4px; margin-right:6px; vertical-align:middle; }
+.rv-flood-adv .rvfa-legend .k-road{ background:#20304d; border:1px solid rgba(255,255,255,.12); }
+.rv-flood-adv .rvfa-legend .k-high{ background:#1d3f6e; border:1px solid rgba(255,255,255,.18); }
+.rv-flood-adv .rvfa-legend .k-shallow{ background:#0ea5e955; border:1px solid #0ea5e9; }
+.rv-flood-adv .rvfa-legend .k-deep{ background:#0284c7aa; border:1px solid #0284c7; }
+.rv-flood-adv .rvfa-legend .k-current{ background:linear-gradient(90deg, #0ea5e977 50%, transparent 50%); border:1px solid #0ea5e9; }
+.rv-flood-adv .rvfa-legend .k-electric{ background:#3b204f; border:1px solid #a855f7; }
+.rv-flood-adv .rvfa-legend .k-bridge{ background:linear-gradient(90deg, #1f2937 50%, #0ea5e9 50%); border:1px solid rgba(255,255,255,.2); }
+
+.rv-flood-adv .rvfa-grid{ display:grid; grid-template-rows: repeat(8, 48px); gap:6px; }
+@media (min-width: 860px){
+  .rv-flood-adv .rvfa-grid{ grid-template-rows: repeat(8, 52px); }
+}
+.rv-flood-adv .rvfa-row{ display:grid; grid-template-columns: repeat(12, 1fr); gap:6px; }
+
+.rv-flood-adv .rvfa-tile{
+  position:relative; border-radius:10px; display:grid; place-items:center;
+  border:1px solid rgba(255,255,255,.12); background:#20304d; color:#dbeafe;
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease, background .12s ease;
+  cursor:pointer; user-select:none;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+}
+.rv-flood-adv .rvfa-tile:hover{ transform: translateY(-3px); filter: brightness(1.06); box-shadow:0 18px 40px rgba(0,0,0,.35); }
+.rv-flood-adv .rvfa-tile.path{ outline:2px solid rgba(255,255,255,.25); }
+.rv-flood-adv .rvfa-tile.last{ box-shadow: 0 18px 50px rgba(124,58,237,.35); }
+
+.rv-flood-adv .rvfa-tile .emo{ font-size:18px; }
+.rv-flood-adv .rvfa-tile .arrow{ font-size:16px; opacity:.85; }
+.rv-flood-adv .rvfa-tile .up{ position:absolute; left:6px; top:4px; font-size:14px; opacity:.9; }
+
+/* Kinds */
+.rv-flood-adv .rvfa-tile.k-road{ background:#20304d; }
+.rv-flood-adv .rvfa-tile.k-high{ background:#1d3f6e; }
+.rv-flood-adv .rvfa-tile.k-shallow{ background:#0ea5e955; }
+.rv-flood-adv .rvfa-tile.k-deep{ background:#0284c7aa; }
+.rv-flood-adv .rvfa-tile.k-current{ background:linear-gradient(90deg, #0ea5e977 50%, transparent 50%); }
+.rv-flood-adv .rvfa-tile.k-electric{ background: radial-gradient(circle at 50% 50%, #7c3aed 0, #3b204f 70%); }
+.rv-flood-adv .rvfa-tile.k-bridge{ background: linear-gradient(90deg, #1f2937 55%, #0284c7aa 45%); }
+
+/* footer */
+.rv-flood-adv .rvfa-foot{ display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
+.rv-flood-adv .rvfa-tip{
+  border:1px dashed rgba(255,255,255,.18); border-radius:12px; padding:8px 10px;
+  background:rgba(255,255,255,.06); color:#dbe7ff; max-width: 620px;
+}
+
+/* overlay */
+.rv-flood-adv .rvfa-overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.55);
+  display:grid; place-items:center; z-index: 50;
+}
+.rv-flood-adv .rvfa-center{
+  background:#0f172a; border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:18px 20px; text-align:center;
+  box-shadow: 0 18px 60px rgba(0,0,0,.45);
+}
+.rv-flood-adv .rvfa-title2{ font-weight:900; font-size:22px; margin-bottom:6px; }
+.rv-flood-adv .rvfa-title2.win{ color:#34d399; }
+.rv-flood-adv .rvfa-title2.lose{ color:#f87171; }
+.rv-flood-adv .rvfa-sub2{ color:#cbd5e1; }
+
+/* confetti */
+.rv-flood-adv .rvfa-confetti{ position:fixed; inset:0; pointer-events:none; z-index:60; }
+.rv-flood-adv .rvfa-confetti .p{
+  position:absolute; width:8px; height:14px; border-radius:2px; animation: rvfa-fall .9s linear forwards;
+}
+@keyframes rvfa-fall{
+  0%{ transform: translateY(0) rotate(0); opacity:1; }
+  100%{ transform: translateY(120px) rotate(200deg); opacity:0; }
+}
+
+/* motion */
+@keyframes rvfa-in{ from{ opacity:0; transform: translateY(10px) scale(.98);} to{opacity:1; transform: translateY(0) scale(1);} }
+@keyframes rvfa-bob{ 0%,100%{ transform: translateY(0)} 50%{ transform: translateY(-6px)} }
+
+/* subtle float utility */
+.floaty-slow{ animation: rvfa-bob 10s ease-in-out infinite; }
+.floaty{ animation: rvfa-bob 7s ease-in-out infinite; }
+
+/* --- Stronger visual feedback for selected path tiles --- */
+.rv-flood-adv .rvfa-tile.path{
+  /* pop the selected tiles */
+  background: linear-gradient(135deg, rgba(59,130,246,.35), rgba(147,197,253,.25));
+  outline: 2px solid rgba(147,197,253,.9);
+  box-shadow:
+    0 0 0 2px rgba(147,197,253,.35) inset,
+    0 10px 28px rgba(59,130,246,.35),
+    0 0 24px rgba(147,197,253,.35);
+  filter: none;                 /* cancel hover dimming */
+  transform: translateY(-2px);  /* slight lift */
+}
+
+/* the most recent tile in your path glows + gently pulses */
+.rv-flood-adv .rvfa-tile.last{
+  background: linear-gradient(135deg, rgba(124,58,237,.40), rgba(59,130,246,.35));
+  box-shadow:
+    0 0 0 2px rgba(167,139,250,.45) inset,
+    0 14px 36px rgba(124,58,237,.45),
+    0 0 30px rgba(124,58,237,.5);
+  position: relative;
+}
+
+.rv-flood-adv .rvfa-tile.last::after{
+  /* soft expanding ring to say “you’re here” */
+  content: "";
+  position: absolute; inset: -4px;
+  border-radius: 12px;
+  border: 2px solid rgba(167,139,250,.65);
+  animation: rvfa-ping 1.6s cubic-bezier(.2,.7,.2,1) infinite;
+  pointer-events: none;
+}
+
+@keyframes rvfa-ping{
+  0%   { opacity: .85; transform: scale(1); }
+  70%  { opacity: 0;   transform: scale(1.12); }
+  100% { opacity: 0;   transform: scale(1.12); }
+}
+
+/* optional: make next-clickable neighbors hint subtly on hover of the last tile */
+.rv-flood-adv .rvfa-tile.last:hover ~ .rvfa-row .rvfa-tile,
+.rv-flood-adv .rvfa-tile.last:hover {
+  /* noop – kept for clarity if you want neighbor hinting later */
+}
+
+/* keep hover nice but not overpowering the selected styles */
+.rv-flood-adv .rvfa-tile:hover:not(.path){
+  transform: translateY(-3px);
+  filter: brightness(1.08);
+  box-shadow: 0 18px 40px rgba(0,0,0,.35);
+}

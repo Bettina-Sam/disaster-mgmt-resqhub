@@ -1,0 +1,47 @@
+{
+  "slug": "flood-beginner",
+  "title": "Flood Safety — Beginner",
+  "disaster": "FLOOD",
+  "level": "BEGINNER",
+  "modules": [
+    {
+      "title": "Start Here",
+      "lessons": [
+        {
+          "slug": "what-is-a-flood",
+          "title": "What is a Flood?",
+          "body": [
+            "A flood is an overflow of water that submerges land that is usually dry.",
+            "Common types: **Flash floods**, **Riverine**, and **Urban flooding**.",
+            "Rule of thumb: *Turn Around, Don’t Drown*—15 cm of water can move a small car."
+          ],
+          "tips": ["Avoid underpasses during heavy rain", "Know your local low-lying zones"]
+        },
+        {
+          "slug": "alerts-and-go-bags",
+          "title": "Alerts & Go-Bags",
+          "body": [
+            "Enable government alerts on your phone and radio.",
+            "Go-bag essentials: water purification tablets, torch, radio, meds, copies of IDs.",
+            "Include pet supplies if applicable."
+          ],
+          "checklist": [
+            "Phone alerts on",
+            "Go-bag packed (3 days supplies)",
+            "IDs in waterproof pouch"
+          ]
+        },
+        {
+          "slug": "evac-basics",
+          "title": "Evacuation Basics",
+          "body": [
+            "Move to higher ground immediately when water rises.",
+            "Switch off electricity if safe. Never wade through moving water.",
+            "Follow official routes—do not take shortcuts through flooded roads."
+          ],
+          "watchouts": ["Hidden manholes", "Live wires", "Contaminated water"]
+        }
+      ]
+    }
+  ]
+}

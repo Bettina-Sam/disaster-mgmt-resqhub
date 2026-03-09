@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "flood-beginner",
+    "title": "Flood Safety — Beginner",
+    "disaster": "FLOOD",
+    "level": "BEGINNER",
+    "duration": 25,
+    "modules": [
+      {
+        "title": "Start Here",
+        "lessons": [
+          { "slug": "what-is-a-flood", "title": "What is a Flood?", "minutes": 4 },
+          { "slug": "alerts-and-go-bags", "title": "Alerts & Go-Bags", "minutes": 6 },
+          { "slug": "evac-basics", "title": "Evacuation Basics", "minutes": 8 }
+        ]
+      }
+    ],
+    "badge": "Flood Novice"
+  },
+  {
+    "slug": "flood-intermediate",
+    "title": "Flood Safety — Intermediate",
+    "disaster": "FLOOD",
+    "level": "INTERMEDIATE",
+    "duration": 30,
+    "modules": [],
+    "badge": "Flood Ready"
+  },
+  {
+    "slug": "flood-advanced",
+    "title": "Flood Safety — Advanced",
+    "disaster": "FLOOD",
+    "level": "ADVANCED",
+    "duration": 35,
+    "modules": [],
+    "badge": "Flood Pro"
+  }
+]

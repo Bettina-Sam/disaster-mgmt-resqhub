@@ -1,0 +1,54 @@
+/* ====== Quake games (scoped) ====== */
+.qk-wrap { --ink:#e9efff; --muted:#a7b3d1; --card:#141c2d; --hi:#1b2540;
+  --bord:#2a3757; --soft:#172237; --accent:#2dc5f4; --accent2:#1e90bb;
+  color:var(--ink);
+}
+.qk-card{background:var(--card);border:1px solid var(--bord);border-radius:16px;box-shadow:0 12px 28px rgba(0,0,0,.35)}
+.qk-hi{background:var(--hi);border:1px solid var(--bord);border-radius:14px}
+.qk-pill{border:1px solid var(--bord);background:var(--soft);border-radius:999px;padding:6px 10px;font-weight:700}
+.qk-btn{background:var(--soft);border:1px solid var(--bord);color:var(--ink);border-radius:12px;padding:8px 12px}
+.qk-btn:hover{filter:brightness(1.06)}
+.qk-cta{background:var(--accent);border-color:var(--accent2);color:#06202d;font-weight:800}
+.qk-cta:hover{box-shadow:0 8px 18px rgba(45,197,244,.25);transform:translateY(-1px)}
+.qk-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+/* fun bits */
+.emo-lg{font-size:40px;line-height:1}
+@keyframes dance{0%,100%{transform:translateY(0)}25%{transform:translateY(-6px) rotate(-6deg)}75%{transform:translateY(-6px) rotate(6deg)}}
+.g-dance{animation:dance 1.8s ease-in-out infinite;display:inline-block;filter:drop-shadow(0 6px 14px rgba(46,197,244,.25))}
+@keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+.g-float{animation:floaty 3.4s ease-in-out infinite}
+@keyframes shake{10%,90%{transform:translate3d(-1px,0,0)}20%,80%{transform:translate3d(2px,0,0)}30%,50%,70%{transform:translate3d(-4px,0,0)}40%,60%{transform:translate3d(4px,0,0)}}
+.qk-shake{animation:shake .8s linear infinite}
+
+/* coach */
+.coach-btn{position:absolute;right:10px;top:10px;background:var(--accent);border:none;border-radius:999px;width:40px;height:40px;box-shadow:0 6px 16px rgba(45,197,244,.25)}
+.coach-bubble{position:absolute;right:60px;top:8px;max-width:340px;background:var(--card);border:1px solid var(--bord);border-radius:14px;padding:10px 12px;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.coach-x{margin-left:10px;background:var(--soft);border:1px solid var(--bord);border-radius:8px;padding:4px 8px;color:var(--ink)}
+
+/* confetti */
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:9999}
+.confetti .p{position:absolute;width:8px;height:14px;opacity:.9;animation:fall 900ms cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0)}100%{transform:translateY(50px) rotate(260deg);opacity:0}}
+
+/* ===== Beginner (DCH Trainer) ===== */
+.qk-room{position:relative; height:320px; padding:14px}
+.qk-table{position:absolute;left:120px;top:150px;width:220px;height:110px;background:linear-gradient(180deg,#2a3757,#1b2540);border:1px solid var(--bord);border-radius:10px;box-shadow:inset 0 -8px 14px rgba(0,0,0,.35)}
+.qk-safe{position:absolute;left:130px;top:200px;width:200px;height:60px;border:2px dashed rgba(45,197,244,.55);border-radius:10px}
+.qk-window{position:absolute;right:80px;top:40px;width:120px;height:90px;border:2px solid #67e8f9;background:linear-gradient(180deg,rgba(103,232,249,.2),rgba(7,89,133,.15));box-shadow:0 0 0 2px rgba(103,232,249,.15) inset}
+.qk-shelf{position:absolute;right:60px;bottom:40px;width:120px;height:120px;border:1px solid var(--bord);background:var(--soft);border-radius:10px}
+.qk-avatar{position:absolute;left:40px;top:210px;cursor:grab;user-select:none}
+
+/* ===== Medium (Hazard Hunt) ===== */
+.qk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.qk-spot{position:relative;min-height:120px}
+.qk-haz{position:absolute;inset:8px;border:1px dashed rgba(255,255,255,.2);border-radius:12px;display:grid;place-items:center}
+.qk-fixed{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.5)}
+.qk-bad{animation:shake .32s}
+
+/* ===== Advanced (Evac Plan & Run) ===== */
+.qk-board{position:relative;height:340px;cursor:crosshair}
+.qk-zone{position:absolute;border:2px dashed rgba(248,113,113,.6);border-radius:50%;background:rgba(239,68,68,.10)}
+.qk-safe{position:absolute;border:2px dashed rgba(34,197,94,.6);border-radius:50%;background:rgba(34,197,94,.10)}
+.qk-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.qk-runner{position:absolute;transform:translate(-14px,-14px)}

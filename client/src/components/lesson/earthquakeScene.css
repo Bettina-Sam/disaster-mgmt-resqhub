@@ -1,0 +1,46 @@
+.earthquake-scene {
+  position: fixed; inset: 0;
+  z-index: 7;
+  pointer-events: none;
+}
+
+.eq-person {
+  position: absolute;
+  font-size: 2.5rem;
+}
+
+.eq-person.glow {
+  text-shadow: 0 0 8px #aaa;
+}
+
+.eq-shelter {
+  position: absolute;
+  font-size: 3rem;
+}
+
+.eq-debris {
+  position: absolute;
+  font-size: 2.5rem;
+  color: #888;
+}
+
+.eq-poof {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* quakeScene.css */
+.quake-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;     /* bump for debugging */
+  pointer-events: none;
+}
+
+/* accidentScene.css */
+.accident-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;     /* bump for debugging */
+  pointer-events: none;
+}
