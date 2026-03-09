@@ -1,4 +1,4 @@
-🌐 **Live Demo:** https://disaster-mgmt-resqhub.netlify.ap
+🌐 **Live Demo:** https://disaster-mgmt-resqhub.netlify.app
 
 ---
 
