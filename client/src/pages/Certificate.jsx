@@ -4,7 +4,6 @@ import { Link, useSearchParams } from "react-router-dom";
 import { getLessonResult } from "../utils/progress";
 import { downloadPNGFromNode, downloadPDFFromNode } from "../utils/certificate";
 import useConfetti from "../hooks/useConfetti";
-import { useAuth } from "../contexts/AuthContext";
 
 // Optional assets
 import seal from "../assets/seal.jpg";
@@ -31,8 +30,7 @@ export default function Certificate() {
   const dateStr = new Date().toLocaleDateString();
   const certId = makeCertId(name, course);
 
-  const { user } = useAuth();
-  const [who, setWho] = useState(() => sp.get("name") || localStorage.getItem("rsq:cert:name") || user?.name || "Learner");
+  const [who, setWho] = useState(() => sp.get("name") || localStorage.getItem("rsq:cert:name") || "Learner");
   // The certificate is only earned by passing the course quiz on this device.
   const earned = Boolean(result?.passed);
 const [qr, setQr] = useState(null);

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import { AuthProvider } from "./contexts/AuthContext";
+import { LiveDataProvider } from "./contexts/LiveDataContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 
 // CSS order matters: vendor first, then the theme
@@ -15,12 +15,12 @@ import BackgroundFX from "./components/BackgroundFX";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <AuthProvider>
-      <LanguageProvider>
+    <LanguageProvider>
+      <LiveDataProvider>
         <BackgroundFX />
         <App />
-      </LanguageProvider>
-    </AuthProvider>
+      </LiveDataProvider>
+    </LanguageProvider>
   </BrowserRouter>
 );
 

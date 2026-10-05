@@ -1,46 +1,15 @@
-.earthquake-scene {
-  position: fixed; inset: 0;
-  z-index: 7;
-  pointer-events: none;
-}
+/* Earthquake scene: a fixed layer behind the lesson text. Only the people accept taps. */
+.earthquake-scene { position: fixed; inset: 0; z-index: 7; pointer-events: none; overflow: hidden; }
+.earthquake-scene.eq-shaking { animation: eqShake .16s linear infinite; }
+@keyframes eqShake { 0%,100% { transform: translate(0,0); } 25% { transform: translate(-3px,2px); } 75% { transform: translate(3px,-2px); } }
 
-.eq-person {
-  position: absolute;
-  font-size: 2.5rem;
-}
+.eq-person { position: absolute; font-size: 2.2rem; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; user-select: none; touch-action: manipulation; filter: drop-shadow(0 0 8px rgba(255,255,255,.75)); }
+.eq-person.eq-covered { filter: drop-shadow(0 0 10px rgba(34,197,94,.95)); }
+.eq-person.eq-hit { filter: drop-shadow(0 0 10px rgba(239,68,68,.95)); }
 
-.eq-person.glow {
-  text-shadow: 0 0 8px #aaa;
-}
+.eq-table { position: absolute; width: 84px; height: 14px; transform: translate(-50%, 0); background: #92400e; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.35); }
+.eq-table::before, .eq-table::after { content: ""; position: absolute; top: 14px; width: 8px; height: 38px; background: #78350f; border-radius: 2px; }
+.eq-table::before { left: 6px; } .eq-table::after { right: 6px; }
 
-.eq-shelter {
-  position: absolute;
-  font-size: 3rem;
-}
-
-.eq-debris {
-  position: absolute;
-  font-size: 2.5rem;
-  color: #888;
-}
-
-.eq-poof {
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-/* quakeScene.css */
-.quake-scene {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;     /* bump for debugging */
-  pointer-events: none;
-}
-
-/* accidentScene.css */
-.accident-scene {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;     /* bump for debugging */
-  pointer-events: none;
-}
+.eq-rock { position: absolute; font-size: 2rem; transform: translate(-50%, -50%); pointer-events: none; filter: drop-shadow(0 4px 6px rgba(0,0,0,.4)); }
+@media (prefers-reduced-motion: reduce) { .earthquake-scene.eq-shaking { animation: none; } }

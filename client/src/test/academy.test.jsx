@@ -4,7 +4,6 @@ import { render, fireEvent, screen, cleanup } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import Quiz from "../pages/Quiz";
 import Certificate from "../pages/Certificate";
-import { AuthProvider } from "../contexts/AuthContext";
 import { QUIZZES } from "../data/quizzes";
 import { getLessonResult } from "../utils/progress";
 
@@ -16,13 +15,11 @@ const quiz = QUIZZES[0];
 function renderQuiz() {
   return render(
     <MemoryRouter initialEntries={[`/academy/quiz/${quiz.id}`]}>
-      <AuthProvider>
         <Routes>
           <Route path="/academy/quiz/:id" element={<Quiz />} />
           <Route path="/academy/certificate" element={<Certificate />} />
           <Route path="/academy" element={<div>Academy home</div>} />
         </Routes>
-      </AuthProvider>
     </MemoryRouter>
   );
 }
@@ -68,9 +65,7 @@ describe("quiz to certificate flow", () => {
   it("opening the certificate URL directly without passing shows it locked", () => {
     render(
       <MemoryRouter initialEntries={[`/academy/certificate?quiz=${quiz.id}&course=${encodeURIComponent(quiz.title)}`]}>
-        <AuthProvider>
           <Routes><Route path="/academy/certificate" element={<Certificate />} /></Routes>
-        </AuthProvider>
       </MemoryRouter>
     );
     expect(screen.getByText(/certificate is locked/i)).toBeTruthy();

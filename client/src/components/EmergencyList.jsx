@@ -30,7 +30,7 @@ export default function EmergencyList({ items, onOpen, onStatusChange, onDelete 
             <div>{t("no_match")}</div>
           </div>
         ) : (
-          <div className="table-responsive" style={{ maxHeight: 520, overflowY: "auto" }}>
+          <div className="table-responsive" style={{ maxHeight: 400, overflowY: "auto" }}>
             <table className="table table-sm align-middle rsq-table">
               <thead>
                 <tr>

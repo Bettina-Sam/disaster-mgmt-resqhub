@@ -1,0 +1,17 @@
+/* HUD for the background lesson games. Sits under the navbar at the top right. */
+.scene-hud { position: fixed; top: 74px; right: 12px; z-index: 60; width: min(360px, calc(100vw - 24px)); background: color-mix(in srgb, var(--bs-body-bg) 94%, transparent); color: var(--bs-body-color); border: 1px solid var(--bs-border-color); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.25); backdrop-filter: blur(10px); overflow: hidden; font-size: .9rem; }
+.scene-hud-alert { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,.35), 0 10px 30px rgba(0,0,0,.25); }
+.scene-hud-bar { display: flex; align-items: center; gap: 8px; padding: 8px 10px; }
+.scene-hud-title { font-weight: 800; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.scene-hud-score { font-weight: 700; white-space: nowrap; }
+.scene-hud-btn { border: 1px solid var(--bs-border-color); background: var(--bs-tertiary-bg); border-radius: 10px; padding: 2px 8px; cursor: pointer; line-height: 1.4; }
+.scene-hud-progress { height: 5px; background: var(--bs-secondary-bg); }
+.scene-hud-progress i { display: block; height: 100%; background: linear-gradient(90deg, #22c55e, #84cc16); transition: width .3s ease; }
+.scene-hud-msg { padding: 8px 12px; background: var(--bs-tertiary-bg); font-weight: 600; }
+.scene-hud-msg.is-alert { background: #ef4444; color: #fff; }
+.scene-hud-how { padding: 10px 14px 12px; border-top: 1px solid var(--bs-border-color); }
+.scene-hud-how ol { padding-left: 1.2rem; margin: 6px 0; }
+.scene-hud-how li + li { margin-top: 4px; }
+.scene-hud-note { font-size: .78rem; color: var(--bs-secondary-color); margin-bottom: 8px; }
+@media (max-width: 640px) { .scene-hud { top: auto; bottom: 8px; right: 8px; left: 8px; width: auto; } }
+.scene-hud-how { max-height: 52vh; overflow: auto; }

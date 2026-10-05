@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "./cycloneScene.css";
+import { emitScene } from "../../utils/sceneEvents";
 
 export default function CycloneScene() {
   const sceneRef = useRef(null);
@@ -96,6 +97,7 @@ export default function CycloneScene() {
       if (p.x + 20 > s.x && p.x < s.x + s.w &&
           p.y + 20 > s.y && p.y < s.y + s.h) {
         // saved
+        emitScene("save", "cyclone");
         p.el.style.opacity = 0;
         p.alive = false;
         setTimeout(() => {
@@ -153,6 +155,7 @@ export default function CycloneScene() {
         if (Math.random() < 0.004 && nearest.alive) {
           nearest.el.style.opacity = 0;
           nearest.alive = false;
+          emitScene("lose", "cyclone");
           particleBurst(nearest.x, nearest.y);
           setTimeout(() => {
             const np = spawnPerson();

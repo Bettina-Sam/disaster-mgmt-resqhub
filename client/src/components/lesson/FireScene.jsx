@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "./fireScene.css";
+import { emitScene } from "../../utils/sceneEvents";
 
 /**
  * FireScene v2
@@ -95,6 +96,7 @@ export default function FireScene() {
       const r = runnersRef.current[idx];
       if (!r) return;
       r.alive = false;
+      emitScene("lose", "fire");
       if (r.el) {
         r.el.classList.add("fs-fade");
         setTimeout(() => r.el.remove(), 120);
@@ -172,6 +174,7 @@ export default function FireScene() {
         const f = flamesRef.current[i];
         const d = Math.hypot(ex - (f.x + 10), ey - (f.y + 10));
         if (d < EXTINGUISH_RADIUS) {
+          emitScene("save", "fire");
           f.el.classList.add("fs-poof");
           setTimeout(() => {
             f.el.remove();

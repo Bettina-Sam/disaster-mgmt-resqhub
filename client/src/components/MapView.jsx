@@ -38,11 +38,15 @@ function ClickToPick({ enabled, setCoords }) {
 const INDIA_VIEW = { center: [22.5, 80], zoom: 5 };
 
 // Re-frames the map when the region or the visible set changes.
-function FitBounds({ items, coords, region, me }) {
+function FitBounds({ items, coords, region, me, pin }) {
   const map = useMap();
   const pts = useMemo(() => items.map(pointOf).filter(Boolean), [items]);
 
   useEffect(() => {
+    if (pin) {
+      map.flyTo([pin.lat, pin.lng], Math.max(map.getZoom(), 9), { duration: 0.8 });
+      return;
+    }
     if (coords?.length === 2) {
       map.setView(coords, Math.max(map.getZoom(), 13), { animate: true });
       return;
@@ -59,7 +63,7 @@ function FitBounds({ items, coords, region, me }) {
       map.setView([20, 10], 2);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, region, coords, me, pts.length === 0]);
+  }, [map, region, coords, me, pin, pts.length === 0]);
 
   return null;
 }
@@ -72,7 +76,7 @@ const BASEMAPS = {
 
 const SEV_WEIGHTS = { CRITICAL: 1, HIGH: 0.8, MEDIUM: 0.5, LOW: 0.3 };
 
-export default function MapView({ items, region = "IN", me, pickOnMap, coords, setCoords, onOpen }) {
+export default function MapView({ items, region = "IN", me, pin, pickOnMap, coords, setCoords, onOpen }) {
   const { t } = useLanguage();
   const [base, setBase] = useState(() => {
     try { return localStorage.getItem("basemap") || "dark"; } catch { return "dark"; }
@@ -103,7 +107,7 @@ export default function MapView({ items, region = "IN", me, pickOnMap, coords, s
 
       <MapContainer center={INDIA_VIEW.center} zoom={INDIA_VIEW.zoom} minZoom={2} worldCopyJump style={{ height: 420, width: "100%", borderRadius: 12 }}>
         <TileLayer key={base} url={bm.url} attribution={bm.attribution} className={bm.className} />
-        <FitBounds items={items} coords={coords} region={region} me={me} />
+        <FitBounds items={items} coords={coords} region={region} me={me} pin={pin} />
         <HeatLayer points={heatPoints} />
 
         {items.map((e) => {
@@ -127,6 +131,11 @@ export default function MapView({ items, region = "IN", me, pickOnMap, coords, s
           <CircleMarker center={me} radius={8} pathOptions={{ color: "#fff", weight: 2, fillColor: "#2563eb", fillOpacity: 1 }}>
             <Popup>{t("you_are_here")}</Popup>
           </CircleMarker>
+        )}
+        {pin && (
+          <Marker position={[pin.lat, pin.lng]}>
+            <Popup>{pin.label}</Popup>
+          </Marker>
         )}
         {coords && <Marker position={coords}><Popup>{t("map_picked")}</Popup></Marker>}
         <ClickToPick enabled={pickOnMap} setCoords={setCoords} />

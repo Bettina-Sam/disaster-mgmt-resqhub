@@ -9,7 +9,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Everything except the live dashboard is loaded on demand to keep the first load small.
-const Login = lazy(() => import("./pages/Login"));
 const AcademyHome = lazy(() => import("./pages/AcademyHome"));
 const Lesson = lazy(() => import("./pages/Lesson"));
 const Quiz = lazy(() => import("./pages/Quiz"));
@@ -27,8 +26,8 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/dashboard" element={<Navigate to="/" replace />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Navigate to="/login" replace />} />
+            <Route path="/login" element={<Navigate to="/" replace />} />
+            <Route path="/register" element={<Navigate to="/" replace />} />
 
             <Route path="/academy" element={<AcademyHome />} />
             <Route path="/academy/lesson/:id" element={<Lesson />} />

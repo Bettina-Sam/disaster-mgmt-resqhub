@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "./floodScene.css";
+import { emitScene } from "../../utils/sceneEvents";
 
 /**
  * FloodScene
@@ -36,6 +37,7 @@ export default function FloodScene() {
 
     const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
     const rand  = (a, b) => Math.random() * (b - a) + a;
+    let lastWaterY = Infinity; // updated every frame; used to tell if a swimmer is in the water
 
     // — visuals helpers —
     const bubbles = (x, y) => {
@@ -78,6 +80,7 @@ export default function FloodScene() {
       const r = runnersRef.current[idx];
       if (!r) return;
       r.alive = false;
+      emitScene("lose", "flood");
       r.el.classList.add("fl-fade");
       bubbles(cx, cy);
       setTimeout(() => r.el.remove(), 160);
@@ -139,6 +142,7 @@ export default function FloodScene() {
       runnersRef.current.forEach(r => {
         const d = Math.hypot(r.x - bx, r.y - by);
         if (d < BUOY_RADIUS && r.alive) {
+          emitScene(r.y > lastWaterY ? "save" : "tip", "flood");
           r.buoyUntil = performance.now() + BUOY_DURATION;
           // small sparkle
           const s = document.createElement("span");
@@ -173,6 +177,7 @@ export default function FloodScene() {
       const waterY = h * waterFrac;
 
       scene.style.setProperty("--waterY", `${waterY}px`);
+      lastWaterY = waterY;
 
       // runners
       runnersRef.current.forEach((r, idx) => {

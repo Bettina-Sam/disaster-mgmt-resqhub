@@ -23,23 +23,19 @@ export default function MascotGuide({ items = [], region = "IN", onOpen }) {
   const message = tipIdx >= 0 ? t(TIPS[tipIdx]) : worst ? `${t(worst.severity === "CRITICAL" ? "guide_critical" : "guide_high")} ${worst.title}` : t("guide_calm");
 
   return (
-    <div className="card glass rsq-guide">
-      <div className="card-body p-3 d-flex align-items-center gap-3">
-        <div style={{ width: 110, flexShrink: 0 }}>
-          <Mascot size={110} mood={mood} onClick={() => setTipIdx((i) => (i + 1) % TIPS.length)} />
-        </div>
-        <div className="small">
-          <div className="fw-bold mb-1">{t("guide_title")}</div>
-          <div aria-live="polite">{message}</div>
-          <div className="mt-2 d-flex gap-2 flex-wrap">
-            {worst && tipIdx < 0 && (
-              <button className="btn btn-sm btn-outline-danger py-0" onClick={() => onOpen?.(worst)}>{t("btn_view")}</button>
-            )}
-            {!worst && <Link className="btn btn-sm btn-outline-success py-0" to="/academy/games">{t("guide_drill")}</Link>}
-            <span className="text-muted" style={{ fontSize: "0.7rem" }}>{t("guide_click")}</span>
-          </div>
+    <div className="rsq-guide">
+      <div className="rsq-guide-bubble" aria-live="polite">
+        <div className="rsq-guide-title">{t("guide_title")}</div>
+        <div>{message}</div>
+        <div className="mt-2 d-flex gap-2 flex-wrap align-items-center">
+          {worst && tipIdx < 0 && (onOpen
+            ? <button className="btn btn-sm btn-outline-danger py-0" onClick={() => onOpen(worst)}>{t("btn_view")}</button>
+            : <a className="btn btn-sm btn-outline-danger py-0" href="#dashboard">{t("btn_view")}</a>)}
+          {!worst && <Link className="btn btn-sm btn-outline-success py-0" to="/academy/games">{t("guide_drill")}</Link>}
+          <span className="text-muted" style={{ fontSize: "0.72rem" }}>{t("guide_click")}</span>
         </div>
       </div>
+      <Mascot size={260} mood={mood} onClick={() => setTipIdx((i) => (i + 1) % TIPS.length)} />
     </div>
   );
 }
