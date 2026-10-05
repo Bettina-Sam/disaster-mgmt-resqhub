@@ -1,8 +1,4 @@
-// src/components/EmergencyList.jsx — SHOWCASE MODE (no backend)
 import React from "react";
-import { useAuth } from "../contexts/AuthContext";
-import { toast } from "react-toastify";
-import { updateIncident, deleteIncident } from "../services/mockService";
 import { useLanguage } from "../contexts/LanguageContext";
 
 const sevClass = (s) =>
@@ -10,48 +6,31 @@ const sevClass = (s) =>
 
 const TYPE_ICON = { FLOOD: "🌊", FIRE: "🔥", EARTHQUAKE: "🌍", ACCIDENT: "🚗", CYCLONE: "🌀", OTHER: "⚡" };
 
-export default function EmergencyList({ items, setItems, onOpen }) {
+export default function EmergencyList({ items, onOpen, onStatusChange, onDelete }) {
   const { t } = useLanguage();
-  // eslint-disable-next-line no-unused-vars
-  const { hasRole } = useAuth();
 
-  const updateStatus = async (id, status) => {
-    try {
-      const updated = await updateIncident(id, { status });
-      setItems((prev) => prev.map((x) => (x._id === id ? updated : x)));
-    } catch {
-      toast.error("Update failed");
-    }
-  };
-
-  const del = async (row) => {
-    if (!window.confirm(`Delete "${row.title}"?`)) return;
-    try {
-      await deleteIncident(row._id);
-      setItems((prev) => prev.filter((x) => x._id !== row._id));
-      toast.success("Incident removed ✔");
-    } catch {
-      toast.error("Delete failed");
-    }
+  const del = (row) => {
+    if (window.confirm(`Delete "${row.title}"?`)) onDelete(row._id);
   };
 
   return (
     <div className="card glass">
       <div className="card-body">
-        <div className="d-flex align-items-center justify-content-between mb-3">
+        <div className="d-flex align-items-center justify-content-between mb-1">
           <div>
             <h5 className="mb-0 fw-bold">{t("list_title")}</h5>
             <div className="text-muted small">{items.length} {t("list_records")}</div>
           </div>
         </div>
+        <div className="text-muted small mb-3">{t("triage_note")}</div>
 
         {items.length === 0 ? (
           <div className="text-center py-4 text-muted">
             <div style={{ fontSize: 36, marginBottom: 8 }}>📋</div>
-            <div>No incidents match your filters</div>
+            <div>{t("no_match")}</div>
           </div>
         ) : (
-          <div className="table-responsive">
+          <div className="table-responsive" style={{ maxHeight: 520, overflowY: "auto" }}>
             <table className="table table-sm align-middle rsq-table">
               <thead>
                 <tr>
@@ -68,20 +47,19 @@ export default function EmergencyList({ items, setItems, onOpen }) {
                   <tr key={row._id} className="rsq-table-row">
                     <td>
                       <div className="fw-semibold" style={{ fontSize: "0.9rem" }}>{row.title}</div>
-                      {row.address && <div className="small text-muted">{row.address}</div>}
+                      <div className="small text-muted">
+                        {row.source}{row.verified ? "" : ` · ${t("unverified")}`}
+                      </div>
                     </td>
-                    <td>
-                      <span>{TYPE_ICON[row.type] || "⚡"} {row.type}</span>
-                    </td>
-                    <td>
-                      <span className={`badge ${sevClass(row.severity)}`}>{row.severity}</span>
-                    </td>
+                    <td><span>{TYPE_ICON[row.type] || "⚡"} {row.type}</span></td>
+                    <td><span className={`badge ${sevClass(row.severity)}`}>{row.severity}</span></td>
                     <td>
                       <select
                         className="form-select form-select-sm"
                         style={{ minWidth: 110 }}
                         value={row.status}
-                        onChange={(ev) => updateStatus(row._id, ev.target.value)}
+                        onChange={(ev) => onStatusChange(row._id, ev.target.value)}
+                        aria-label="Status"
                       >
                         <option value="OPEN">{t("status_open")}</option>
                         <option value="ACK">{t("status_ack")}</option>
@@ -96,7 +74,9 @@ export default function EmergencyList({ items, setItems, onOpen }) {
                     <td>
                       <div className="d-flex gap-1">
                         <button className="btn btn-outline-primary btn-sm" onClick={() => onOpen(row)}>{t("btn_view")}</button>
-                        <button className="btn btn-outline-danger btn-sm" onClick={() => del(row)}>✕</button>
+                        {row.source === "COMMUNITY" && (
+                          <button className="btn btn-outline-danger btn-sm" onClick={() => del(row)} aria-label="Delete report">✕</button>
+                        )}
                       </div>
                     </td>
                   </tr>

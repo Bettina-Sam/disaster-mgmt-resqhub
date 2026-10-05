@@ -5,127 +5,57 @@ import SnakeOverlay from "../components/SnakeOverlay";
 import Mascot from "../components/Mascot";
 import { useLanguage } from "../contexts/LanguageContext";
 
+// There is no server, so this is a local profile, not an account.
+// The name is stored on this device and printed on Academy certificates.
 export default function Login() {
   const { t } = useLanguage();
-  const { login } = useAuth();
+  const { user, setProfile } = useAuth();
   const navigate = useNavigate();
 
   const [mood, setMood] = useState("idle");
-  const [showPw, setShowPw] = useState(false);
-  const [pwFocused, setPwFocused] = useState(false);
+  const [name, setName] = useState(user?.name || "");
 
-  const [email, setEmail] = useState("demo@resqhub.com");
-  const [password, setPassword] = useState("showcase");
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState("");
-
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    setErr("");
-    setLoading(true);
-    try {
-      // Simulate network delay for polish
-      await new Promise(r => setTimeout(r, 600));
-      await login(email, password);
-      navigate("/dashboard");
-    } catch (_) {
-      setErr("Login failed");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGuestLogin = async () => {
-    setErr("");
-    setLoading(true);
-    try {
-      await new Promise(r => setTimeout(r, 600));
-      await login("guest@resqhub.com", "guest");
-      navigate("/dashboard");
-    } catch (_) {
-      setErr("Login failed");
-    } finally {
-      setLoading(false);
-    }
+    setProfile(name);
+    navigate("/");
   };
 
   return (
     <>
       <SnakeOverlay speedMs={240} />
       <div className="auth-page">
-        <div
-          className="auth-left"
-          onMouseEnter={() => setMood("dance")}
-          onMouseLeave={() => setMood("idle")}
-        >
-          <Mascot lookAway={pwFocused && !showPw} mood={mood} />
+        <div className="auth-left" onMouseEnter={() => setMood("dance")} onMouseLeave={() => setMood("idle")}>
+          <Mascot mood={mood} lookAway={false} />
         </div>
 
         <div className="auth-right">
           <div className="auth-card-nice shadow-lg rounded-4 p-4 p-md-5 bg-glass border border-secondary-subtle">
             <div className="text-center mb-4">
-              <div className="h3 fw-bold mb-1">{t("login_title")}</div>
-              <div className="text-muted small">{t("login_sub")}</div>
+              <div className="h3 fw-bold mb-1">{t("profile_title")}</div>
+              <div className="text-muted small">{t("profile_sub")}</div>
             </div>
 
-            {err && <div className="alert alert-danger py-2">{err}</div>}
-
-            <form onSubmit={onSubmit} className="vstack gap-3 mb-4">
+            <form onSubmit={onSubmit} className="vstack gap-3 mb-3">
               <div>
-                <label className="form-label text-secondary small fw-bold mb-1">Email</label>
+                <label htmlFor="profile-name" className="form-label text-secondary small fw-bold mb-1">{t("your_name")}</label>
                 <input
+                  id="profile-name"
                   className="form-control bg-dark text-light border-secondary"
-                  type="email"
-                  autoComplete="email"
-                  placeholder={t("login_email_pl")}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  readOnly
+                  autoComplete="name"
+                  maxLength={40}
+                  placeholder={t("your_name_ph")}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
-
-              <div>
-                <label className="form-label text-secondary small fw-bold mb-1">Password</label>
-                <div style={{ position: "relative" }}>
-                  <input
-                    className="form-control bg-dark text-light border-secondary pe-5"
-                    type={showPw ? "text" : "password"}
-                    autoComplete="current-password"
-                    placeholder={t("login_pass_pl")}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    onFocus={() => setPwFocused(true)}
-                    onBlur={() => setPwFocused(false)}
-                    readOnly
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPw((s) => !s)}
-                    className="btn btn-sm text-secondary position-absolute end-0 top-50 translate-middle-y me-1"
-                    aria-label={showPw ? "Hide password" : "Show password"}
-                  >
-                    {showPw ? "🙈" : "👁️"}
-                  </button>
-                </div>
-              </div>
-
-              <button className="btn btn-primary btn-lg w-100 fw-bold mt-2 rsq-hover-lift" disabled={loading}>
-                {loading ? "Authenticating..." : t("btn_enter")}
-              </button>
+              <button className="btn btn-primary btn-lg w-100 fw-bold rsq-hover-lift">{t("save_continue")}</button>
             </form>
 
-            <div className="position-relative text-center my-3">
-              <hr className="border-secondary" />
-              <span className="position-absolute top-50 start-50 translate-middle px-2 text-muted small bg-dark rounded">or</span>
-            </div>
-
-            <button 
-              onClick={handleGuestLogin}
-              className="btn btn-outline-light w-100 rsq-hover-lift"
-              disabled={loading}
-            >
-              🚀 {t("btn_guest")}
+            <button type="button" onClick={() => navigate("/")} className="btn btn-outline-light w-100 rsq-hover-lift">
+              {t("skip")}
             </button>
+            <p className="text-muted small text-center mt-3 mb-0">{t("profile_privacy")}</p>
           </div>
         </div>
       </div>

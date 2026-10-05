@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./talk.css";
 import { useLanguage } from "../../contexts/LanguageContext";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { askAssistant } from "../../services/assistant";
 
 /**
  * ResQVoice — Talk Panel (scoped with `.rv-talk`)
@@ -176,74 +176,10 @@ export default function TalkPanel({
     return false;
   }
 
-  // ------- Brain: ask API or fallback
+  // ------- Brain: server-side AI when available, built-in guidance otherwise
   async function askBrain(prompt) {
-    try {
-      const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
-      console.log("Gemini API Key detected:", !!apiKey);
-      if (apiKey) {
-        const genAI = new GoogleGenerativeAI(apiKey);
-
-        // Broadened system prompt to allow general questions as requested by user
-        let systemPrompt = "You are a helpful and polite AI assistant. While you are part of the ResQHub Disaster Management system, feel free to answer any general questions the user asks creatively and accurately.";
-        if (language === "ta-IN") systemPrompt += " Please reply exclusively in Tamil.";
-        else if (language === "hi-IN") systemPrompt += " Please reply exclusively in Hindi.";
-
-        const MODEL_NAME = "gemini-2.5-flash";
-        console.log("DEBUG: Using API Key (first 5):", apiKey.substring(0, 5));
-        console.log("DEBUG: Running generateContent with model:", MODEL_NAME);
-
-        const model = genAI.getGenerativeModel({ model: MODEL_NAME });
-
-        // Combine system prompt and user prompt into one array for maximum compatibility
-        const finalPrompt = `System: You are ResQ AI, a helpful assistant. Use Tamil/Hindi if the user does.\nUser: ${prompt}`;
-
-        const result = await model.generateContent(finalPrompt);
-        const response = await result.response;
-        return response.text();
-      }
-    } catch (err) {
-      console.error("Gemini API Error details:", err);
-      // Return a descriptive error string
-      return `ERR_API: ${err.message || "Unknown connection error"}`;
-    }
-
-    // Fallback lightweight disaster-management responses
-    const p = prompt.toLowerCase();
-    if (/flood|water/i.test(p)) {
-      return language === "ta-IN"
-        ? "வெள்ளத்தின் போது: மின் இணைப்புகளைத் துண்டிக்கவும். உயர்ந்த இடங்களுக்குச் செல்லவும். காய்ச்சப்படாத தண்ணீரை மாசடைந்ததாகக் கருதவும்."
-        : "During a flood: Disconnect electrical appliances. Move to higher ground immediately. Do not walk or drive through flood waters.";
-    }
-    if (/earthquake|shake|quake/i.test(p)) {
-      return language === "ta-IN"
-        ? "நிலநடுக்கத்தின் போது: முழங்காலிட்டு, மேஜையின் அடியில் தஞ்சம் புகுந்து, அதனைப் பிடித்துக் கொள்ளுங்கள் (Drop, Cover, Hold on)."
-        : "During an earthquake: DROP to the ground, take COVER under a sturdy desk or table, and HOLD ON until the shaking stops.";
-    }
-    if (/fire/i.test(p)) {
-      return language === "ta-IN"
-        ? "தீ விபத்தின் போது: தரையோடு தரையாக ஊர்ந்து செல்லவும் (புகை மேல் நோக்கி செல்லும்). உடனடியாக 101-ஐ அழைக்கவும்."
-        : "During a fire: Crawl low under the smoke to escape. Do not use elevators. Call emergency numbers immediately after escaping.";
-    }
-    if (/kit|prepare/i.test(p)) {
-      return language === "ta-IN"
-        ? "ஒரு அடிப்படை அவசரகால தொகுப்பில் (Emergency Kit): தண்ணீர், கெட்டுப்போகாத உணவு, முதலுதவிப் பொருட்கள், டார்ச், மற்றும் பேட்டரிகள் இருக்க வேண்டும்."
-        : "An emergency kit should include: Water, non-perishable food, a flashlight, first aid supplies, extra batteries, and important documents.";
-    }
-    if (/shelter/i.test(p)) {
-      return language === "ta-IN"
-        ? "அருகிலுள்ள முகாம்களை (Shelters) காண, முகப்புப் பக்கத்தில் உள்ள 'பார்வை வரைபடம்' (View Live Map) முனையை அணுகவும்."
-        : "To find nearby active shelters, please check the Live Map on your Dashboard. Local authorities regularly update shelter capacities.";
-    }
-    if (/cyclone|storm/i.test(p)) {
-      return language === "ta-IN"
-        ? "புயலின் போது: வீட்டுக்குள்ளேயே ஜன்னல்களிலிருந்து தள்ளி இருக்கவும். வானொலி மற்றும் அதிகாரப்பூர்வ சுற்றறிக்கைகளைத் தொடர்ந்து கவனிக்கவும்."
-        : "During a cyclone: Stay indoors and away from windows. Keep your emergency kit handy and tune in to local weather updates.";
-    }
-
-    return language === "ta-IN"
-      ? "நான் ஒரு செயற்கை நுண்ணறிவு உதவியாளர். வெள்ளம், தீ விபத்து, முதலுதவி போன்ற பேரிடர் மேலாண்மை குறித்த கேள்விகளை எழுப்பவும்."
-      : "I am an AI assistant focused on disaster management. Feel free to ask me about flood safety, earthquake protocols, or how to build an emergency kit.";
+    const { text } = await askAssistant(prompt, globalLang, msgs.slice(-6));
+    return text;
   }
 
   // ------- Send handler
@@ -277,25 +213,6 @@ export default function TalkPanel({
 
     const reply = await askBrain(content);
     setIsTyping(false);
-
-    if (reply && reply.startsWith("ERR_API:")) {
-      setMsgs(m => [...m, {
-        id: Date.now() + 1,
-        role: "assistant",
-        text: `⚠️ AI Connection Error: ${reply.replace("ERR_API:", "")}. Please verify your API key and network.`
-      }]);
-      return;
-    }
-
-    if (!reply) {
-      // This case should ideally not be reached now with ERR_API prefix
-      setMsgs(m => [...m, {
-        id: Date.now() + 1,
-        role: "assistant",
-        text: "I'm having trouble connecting to my brain right now. Please check if the API key is valid and you've restarted the server."
-      }]);
-      return;
-    }
 
     const assistantMsg = { id: Date.now() + 1, role: "assistant", text: reply };
     setMsgs(m => [...m, assistantMsg]);

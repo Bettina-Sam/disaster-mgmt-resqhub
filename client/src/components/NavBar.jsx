@@ -1,4 +1,3 @@
-// src/components/NavBar.jsx — Upgraded for showcase
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
@@ -20,10 +19,10 @@ export default function NavBar() {
     localStorage.setItem("theme", dark ? "dark" : "light");
   }, [dark]);
 
-  const handleLogout = () => { logout(); navigate("/login"); };
+  const handleLogout = () => { logout(); navigate("/"); };
 
   const navLinks = [
-    { to: "/dashboard", label: t("dashboard"), icon: "📊" },
+    { to: "/", label: t("dashboard"), icon: "📊" },
     { to: "/academy", label: t("academy"), icon: "🎓" },
     { to: "/academy/games", label: t("games"), icon: "🎮" },
     { to: "/resqvoice", label: t("resqvoice"), icon: "🔊" },
@@ -34,7 +33,7 @@ export default function NavBar() {
   return (
     <nav className="navbar rsq-nav px-3 py-2">
       {/* Brand */}
-      <Link to="/dashboard" className="navbar-brand d-flex align-items-center gap-2 rsq-logo text-decoration-none">
+      <Link to="/" className="navbar-brand d-flex align-items-center gap-2 rsq-logo text-decoration-none">
         <span className="rsq-nav-shield">🛡️</span>
         <div>
           <span className="fw-black rsq-nav-brand-text">ResQHub</span>
@@ -58,7 +57,6 @@ export default function NavBar() {
 
       {/* Right side */}
       <div className="ms-auto d-flex align-items-center gap-2">
-        {/* Demo badge removed per user request */}
 
         {/* Language toggle (Desktop only) */}
         <select
@@ -68,7 +66,8 @@ export default function NavBar() {
           aria-label="Toggle language"
         >
           <option value="en">English</option>
-          <option value="ta">தமிழ்</option>
+          <option value="hi">हिन्दी</option>
+                <option value="ta">தமிழ்</option>
         </select>
 
         {/* Theme toggle */}
@@ -84,8 +83,7 @@ export default function NavBar() {
         {/* Auth area (Desktop/Tablet) */}
         {user ? (
           <>
-            <span className="badge text-bg-info d-none d-lg-inline">{t("admin")}</span>
-            <span className="badge text-bg-secondary d-none d-md-inline">{user.name || "Admin"}</span>
+            <span className="badge text-bg-secondary d-none d-md-inline">{user.name || "Guest"}</span>
             <button className="btn btn-sm btn-outline-danger rsq-round-btn d-none d-sm-inline-block" onClick={handleLogout}>
               {t("logout")}
             </button>
@@ -94,9 +92,6 @@ export default function NavBar() {
           <>
             <Link className="btn btn-sm btn-outline-primary rsq-round-btn d-none d-md-inline-flex" to="/login">
               {t("login")}
-            </Link>
-            <Link className="btn btn-sm btn-primary rsq-round-btn d-none d-sm-inline-flex" to="/register">
-              {t("signup")}
             </Link>
           </>
         )}
@@ -137,16 +132,14 @@ export default function NavBar() {
                 aria-label="Toggle language"
               >
                 <option value="en">English</option>
-                <option value="ta">தமிழ்</option>
+                <option value="hi">हिन्दी</option>
+          <option value="ta">தமிழ்</option>
               </select>
 
               {!user && (
                 <div className="d-flex gap-2 ms-auto">
                   <Link className="btn btn-sm btn-outline-primary rounded-pill d-md-none" to="/login" onClick={() => setMenuOpen(false)}>
                     {t("login")}
-                  </Link>
-                  <Link className="btn btn-sm btn-primary rounded-pill d-sm-none" to="/register" onClick={() => setMenuOpen(false)}>
-                    {t("signup")}
                   </Link>
                 </div>
               )}

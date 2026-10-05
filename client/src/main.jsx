@@ -6,23 +6,25 @@ import App from "./App";
 import { AuthProvider } from "./contexts/AuthContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 
-// CSS order matters: vendor first, then your theme
+// CSS order matters: vendor first, then the theme
 import "bootstrap/dist/css/bootstrap.min.css";
-import "leaflet/dist/leaflet.css";           // <-- only if you use Leaflet
+import "leaflet/dist/leaflet.css";
 import "./theme.css";
 
-// Mount the animated background once, behind the app
 import BackgroundFX from "./components/BackgroundFX";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AuthProvider>
       <LanguageProvider>
-        {/* canvas behind everything */}
         <BackgroundFX />
         <App />
       </LanguageProvider>
     </AuthProvider>
   </BrowserRouter>
 );
+
+// Offline support (production builds only, so dev hot-reload is not cached).
+if (import.meta.env.PROD && "serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+}

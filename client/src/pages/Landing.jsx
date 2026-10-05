@@ -1,58 +1,30 @@
-// src/pages/Landing.jsx
-// Hero landing experience + stats + CTA for ResQHub portfolio showcase
-
 import React from "react";
-import VisitorCounter from "../components/VisitorCounter";
+import { Link } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Landing() {
   const { t } = useLanguage();
 
-  const IMPACT_STATS = [
-    { icon: "🚨", value: "28", label: t("stats_incidents") },
-    { icon: "🏕️", value: "4", label: t("stats_shelters") },
-    { icon: "🛡️", value: "14", label: t("stats_teams") },
-    { icon: "⚡", value: "89%", label: t("stats_response") },
-    { icon: "❤️", value: "1,420", label: t("stats_lives") },
+  // Plain facts about the project, not made-up impact numbers.
+  const FACTS = [
+    { icon: "📡", value: "3", label: t("fact_sources") },
+    { icon: "🌐", value: "3", label: t("fact_langs") },
+    { icon: "🎮", value: "15", label: t("fact_games") },
+    { icon: "🆓", value: "0₹", label: t("fact_free") },
   ];
 
   const FEATURES = [
-    {
-      icon: "🗺️",
-      title: t("feat_map"),
-      desc: t("feat_map_sub"),
-    },
-    {
-      icon: "🚨",
-      title: t("feat_alert"),
-      desc: t("feat_alert_sub"),
-    },
-    {
-      icon: "📊",
-      title: t("feat_ops"),
-      desc: t("feat_ops_sub"),
-    },
-    {
-      icon: "🏕️",
-      title: t("feat_shelter"),
-      desc: t("feat_shelter_sub"),
-    },
-    {
-      icon: "🎓",
-      title: t("feat_academy"),
-      desc: t("feat_academy_sub"),
-    },
-    {
-      icon: "🔊",
-      title: t("feat_voice"),
-      desc: t("feat_voice_sub"),
-    },
+    { icon: "🗺️", title: t("feat_map"), desc: t("feat_map_sub") },
+    { icon: "🚨", title: t("feat_alert"), desc: t("feat_alert_sub") },
+    { icon: "🏥", title: t("feat_shelter"), desc: t("feat_shelter_sub") },
+    { icon: "🎓", title: t("feat_academy"), desc: t("feat_academy_sub") },
+    { icon: "🔊", title: t("feat_voice"), desc: t("feat_voice_sub") },
+    { icon: "📴", title: t("feat_offline"), desc: t("feat_offline_sub") },
   ];
 
   return (
     <>
-      {/* ── HERO ─────────────────────────────────────── */}
       <section className="rsq-hero">
         <div className="rsq-hero-bg-overlay" />
         <div className="container-xxl rsq-hero-content">
@@ -66,47 +38,26 @@ export default function Landing() {
             <span className="rsq-hero-highlight">{t("hero_title_2")}</span>
           </h1>
 
-          <p className="rsq-hero-tagline">
-            {t("tagline")}
-          </p>
-
-          <p className="rsq-hero-sub">
-            {t("hero_sub")}
-          </p>
+          <p className="rsq-hero-sub">{t("hero_sub")}</p>
 
           <div className="rsq-hero-ctas">
-            <a href="#dashboard-section" className="rsq-cta-primary">
-              {t("btn_dashboard")}
-            </a>
-            <a href="#dashboard-section" className="rsq-cta-secondary">
-              {t("btn_map")}
-            </a>
-            <a href="#dashboard-section" className="rsq-cta-ghost">
-              {t("btn_alerts")}
-            </a>
+            <a href="#dashboard-section" className="rsq-cta-primary">{t("btn_dashboard")}</a>
+            <Link to="/academy" className="rsq-cta-secondary">{t("btn_academy")}</Link>
+            <Link to="/resqvoice" className="rsq-cta-ghost">{t("btn_assistant")}</Link>
           </div>
 
-          <div className="rsq-hero-footer-row">
-            <VisitorCounter />
-            <span className="rsq-hero-sep-dot">·</span>
-            <span className="rsq-hero-live-text">
-              <span className="rsq-live-dot small" />
-              12 {t("active_incidents_now")}
-            </span>
-          </div>
+          <p className="rsq-hero-live-text mt-3 mb-0">{t("hero_data_line")}</p>
         </div>
       </section>
 
-      {/* ── DASHBOARD (inline after hero, BEFORE features) ─────────────── */}
       <div id="dashboard-section">
         <Dashboard />
       </div>
 
-      {/* ── IMPACT STATS ─────────────────────────────── */}
       <section className="rsq-impact-section">
         <div className="container-xxl">
           <div className="rsq-impact-grid">
-            {IMPACT_STATS.map((s) => (
+            {FACTS.map((s) => (
               <div key={s.label} className="rsq-impact-card">
                 <div className="rsq-impact-icon">{s.icon}</div>
                 <div className="rsq-impact-value">{s.value}</div>
@@ -117,7 +68,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── FEATURES GRID (Moved to bottom as requested) ────────────────────────────── */}
       <section className="rsq-features-section bg-body-tertiary">
         <div className="container-xxl">
           <div className="rsq-section-heading">

@@ -3,15 +3,19 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 const AuthCtx = createContext(null);
 export const useAuth = () => useContext(AuthCtx);
 
-/** Front-end only auth: no server calls */
+const KEY = "resqhub:user";
+
+/**
+ * Local profile only. There is no server and no password: the name is stored in this
+ * browser and used on Academy certificates.
+ */
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // restore from localStorage
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("resqhub:user");
+      const raw = localStorage.getItem(KEY);
       setUser(raw ? JSON.parse(raw) : null);
     } catch {
       setUser(null);
@@ -20,37 +24,19 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  function save(u) {
+  function setProfile(name) {
+    const clean = (name || "").trim().slice(0, 40);
+    if (!clean) return null;
+    const u = { id: "local", name: clean, role: "USER" };
     setUser(u);
-    localStorage.setItem("resqhub:user", JSON.stringify(u));
-  }
-
-  async function login(email, _password) {
-    const clean = (email || "").trim().toLowerCase();
-    const name = clean.split("@")[0] || "Guest";
-    const u = { id: `guest-${Date.now()}`, email: clean, name, role: "USER" };
-    save(u);
+    try { localStorage.setItem(KEY, JSON.stringify(u)); } catch { /* storage blocked */ }
     return u;
   }
 
-  async function register(name, email, _password) {
-    const cleanEmail = (email || "").trim().toLowerCase();
-    const cleanName = (name || cleanEmail.split("@")[0] || "Guest").trim();
-    const u = { id: `guest-${Date.now()}`, email: cleanEmail, name: cleanName, role: "USER" };
-    save(u);
-    return u;
-  }
-
-  async function logout() {
-    localStorage.removeItem("resqhub:user");
+  function logout() {
+    try { localStorage.removeItem(KEY); } catch { /* ignore */ }
     setUser(null);
   }
 
-  function hasRole(...roles) {
-    const r = (user?.role || "").toUpperCase();
-    return roles.map(x => x.toUpperCase()).includes(r);
-  }
-
-  const value = { user, loading, login, register, logout, hasRole };
-  return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
+  return <AuthCtx.Provider value={{ user, loading, setProfile, logout }}>{children}</AuthCtx.Provider>;
 }

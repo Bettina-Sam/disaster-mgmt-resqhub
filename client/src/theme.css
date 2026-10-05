@@ -1384,3 +1384,11 @@ label.bg-primary input.form-check-input {
   .rsq-hero-title { letter-spacing: -0.5px; }
 }
 
+
+/* ---- v2: live data additions ---- */
+.rsq-pin-unverified { outline: 2px dashed #f59e0b; outline-offset: 2px; }
+.rsq-number-row { padding: 6px 10px; border-radius: 10px; background: rgba(255,255,255,.04); color: inherit; }
+.rsq-number-row:hover { background: rgba(239,68,68,.12); color: inherit; }
+.rsq-source-status { padding: 8px 12px; border-radius: 12px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+.rsq-alert-item { width: 100%; background: transparent; }
+.rsq-alert-item:focus-visible, .rsq-number-row:focus-visible, button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }

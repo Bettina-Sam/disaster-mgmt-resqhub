@@ -37,7 +37,7 @@ export default function Footer() {
               <span className="fs-5 fw-black tracking-tight text-white m-0 p-0">ResQHub</span>
             </div>
             <p className="text-secondary small mb-0 font-monospace" style={{ fontSize: "0.75rem", letterSpacing: "0.5px" }}>
-              See. Assign. Resolve.
+              {t("footer_tag")}
             </p>
           </div>
 
@@ -90,7 +90,7 @@ export default function Footer() {
             </div>
             
             <p className="text-secondary mb-0 fw-medium" style={{ fontSize: "0.7rem" }}>
-              {t("made_with")} <span className="text-danger mx-1">❤️</span> 2026. {t("showcase_project")}.
+              {t("made_with")} <span className="text-danger mx-1">❤️</span> 2026 · {t("open_source")}.
             </p>
           </div>
           

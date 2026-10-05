@@ -4,7 +4,7 @@ import HazardIcon from "./HazardIcon";
 import MicButton from "./MicButton";
 import { toast } from "react-toastify";
 import useConfetti from "../hooks/useConfetti";
-import { createIncident } from "../services/mockService";
+import { createReport } from "../services/liveService";
 import { useLanguage } from "../contexts/LanguageContext";
 
 const TYPES = ["FLOOD", "FIRE", "EARTHQUAKE", "ACCIDENT", "CYCLONE", "OTHER"];
@@ -74,15 +74,15 @@ export default function EmergencyForm({ onCreated, pickOnMap, setPickOnMap, coor
     }
 
     try {
-      // Uses mock service — no backend needed
-      const data = await createIncident(payload);
+      // Saved on this device and shown as an unverified community report.
+      const data = createReport(payload);
       onCreated?.(data);
 
       setTitle(""); setAddress(""); setLat(""); setLng("");
       setDescription(""); setType("FLOOD"); setSeverity("MEDIUM");
       setReportedBy(""); setPhone("");
 
-      toast.success("Incident reported successfully ✅");
+      toast.success(t("report_saved"));
       if (!localStorage.getItem("rsq:firstSubmit")) {
         burst();
         localStorage.setItem("rsq:firstSubmit", "1");
@@ -102,11 +102,11 @@ export default function EmergencyForm({ onCreated, pickOnMap, setPickOnMap, coor
         <div className="d-flex align-items-center justify-content-between mb-3">
           <div>
             <h5 className="mb-0 fw-bold">{t("report_incident")}</h5>
-            <div className="small text-muted">{t("demo_mode")}</div>
+            <div className="small text-muted">{t("report_note")}</div>
           </div>
           <div className="d-flex align-items-center gap-2">
             <HazardIcon type={type} />
-            <span className="badge text-bg-success">{t("demo_active")}</span>
+            <span className="badge text-bg-warning">{t("unverified")}</span>
           </div>
         </div>
 
