@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import { toast } from "react-toastify";
 
 const ITEMS = [
@@ -22,6 +23,7 @@ export default function CycloneBeginner({ onExit }){
   const [sec,setSec] = useState(TIME);
   const [state,setState] = useState("IDLE");
   const [banner,setBanner] = useState(null); // {win:boolean,title,sub}
+  useEffect(() => { if (banner) recordGame("cyclone-beginner", !!banner.win); }, [banner]);
   const safeRef = useRef(null), unsafeRef = useRef(null);
 
   useEffect(()=>{ if(state!=="PLAY") return; const t=setInterval(()=>setSec(s=>s>0?s-1:0),1000); return ()=>clearInterval(t); },[state]);
@@ -37,9 +39,12 @@ export default function CycloneBeginner({ onExit }){
   };
 
   const onDragStart=(e,id)=>{ e.dataTransfer.setData("text/plain", id); };
-  const dropTo=(bucket)=>(e)=>{
-    e.preventDefault();
-    const id=e.dataTransfer.getData("text/plain"); if(!id) return;
+  // Tap an item to pick it up, then tap a zone. Works on phones and with a keyboard; drag-and-drop still works too.
+  const [picked,setPicked] = useState(null);
+  const dropTo=(bucket)=>(e)=>{ e.preventDefault(); place(e.dataTransfer.getData("text/plain"), bucket); };
+  const place=(id,bucket)=>{
+    if(!id || state!=="PLAY") return;
+    setPicked(null);
     if(placed.safe.includes(id) || placed.unsafe.includes(id)) return;
     const item = items.find(x=>x.id===id); if(!item) return;
     const correct = item.target===bucket;
@@ -56,7 +61,7 @@ export default function CycloneBeginner({ onExit }){
       <div className="d-flex align-items-center justify-content-between mb-2">
         <div>
           <h5 className="mb-0">🌪️ Cyclone — Beginner (Secure & Store)</h5>
-          <small className="g-muted">Drag items into <b>SAFE (indoors)</b> or <b>UNSAFE (leave outside)</b>. Hit 6 correct picks.</small>
+          <small className="g-muted">Drag items (or tap an item, then tap a zone) into <b>SAFE (indoors)</b> or <b>UNSAFE (leave outside)</b>. Hit 6 correct picks.</small>
         </div>
         <div className="d-flex align-items-center gap-2">
           <span className="g-pill">⏱ {sec}s</span>
@@ -76,7 +81,11 @@ export default function CycloneBeginner({ onExit }){
             {items.map(it=>{
               const used = placed.safe.includes(it.id) || placed.unsafe.includes(it.id);
               return (
-                <div key={it.id} className={`inv-item ${used? "g-good" : ""}`} draggable={!used} onDragStart={(e)=>onDragStart(e,it.id)}>
+                <div key={it.id} className={`inv-item ${used? "g-good" : ""}`} draggable={!used} onDragStart={(e)=>onDragStart(e,it.id)}
+                     role="button" tabIndex={used?-1:0} aria-pressed={picked===it.id} aria-label={`Pick up ${it.label}`}
+                     style={picked===it.id ? {outline:"3px solid #60a5fa", outlineOffset:2} : undefined}
+                     onClick={()=>{ if(!used && state==="PLAY") setPicked(p=>p===it.id?null:it.id); }}
+                     onKeyDown={(e)=>{ if((e.key==="Enter"||e.key===" ") && !used && state==="PLAY"){ e.preventDefault(); setPicked(p=>p===it.id?null:it.id); } }}>
                   <div className="emo-lg g-dance">{it.emoji}</div>
                   <div className="fw-semibold">{it.label}</div>
                 </div>
@@ -86,13 +95,13 @@ export default function CycloneBeginner({ onExit }){
         </section>
 
         <section className="g-grid" style={{gridTemplateColumns:"1fr 1fr"}}>
-          <div className="g-card p-3" ref={safeRef} onDragOver={(e)=>e.preventDefault()} onDrop={dropTo("safe")}>
+          <div className="g-card p-3" ref={safeRef} onDragOver={(e)=>e.preventDefault()} onDrop={dropTo("safe")} onClick={()=>picked && place(picked,"safe")} role="button" tabIndex={0} aria-label="Put picked item indoors (safe)" onKeyDown={(e)=>{ if((e.key==="Enter"||e.key===" ") && picked){ e.preventDefault(); place(picked,"safe"); } }}>
             <div className="d-flex align-items-center gap-2 mb-2"><span className="emo-lg g-dance">🏠</span><strong>SAFE (Indoors)</strong></div>
             <div className="d-flex flex-wrap gap-2">
               {placed.safe.map(id=>{ const it=items.find(x=>x.id===id); return <span key={id} className="chip"><span className="emo-lg">{it.emoji}</span>{it.label}</span>;})}
             </div>
           </div>
-          <div className="g-card p-3" ref={unsafeRef} onDragOver={(e)=>e.preventDefault()} onDrop={dropTo("unsafe")}>
+          <div className="g-card p-3" ref={unsafeRef} onDragOver={(e)=>e.preventDefault()} onDrop={dropTo("unsafe")} onClick={()=>picked && place(picked,"unsafe")} role="button" tabIndex={0} aria-label="Leave picked item outside (unsafe)" onKeyDown={(e)=>{ if((e.key==="Enter"||e.key===" ") && picked){ e.preventDefault(); place(picked,"unsafe"); } }}>
             <div className="d-flex align-items-center gap-2 mb-2"><span className="emo-lg g-dance">🌬️</span><strong>UNSAFE (Leave Outside)</strong></div>
             <div className="d-flex flex-wrap gap-2">
               {placed.unsafe.map(id=>{ const it=items.find(x=>x.id===id); return <span key={id} className="chip"><span className="emo-lg">{it.emoji}</span>{it.label}</span>;})}

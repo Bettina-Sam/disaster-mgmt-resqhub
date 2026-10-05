@@ -1,19 +1,12 @@
 {
-  "name": "disaster-mgmt",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "resqhub",
+  "version": "2.0.0",
   "scripts": {
-    "dev": "npm start --prefix client",
-    "dev:with-server": "concurrently \"npm run dev --prefix server\" \"npm start --prefix client\""
+    "dev": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "test": "npm run test --prefix client"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "concurrently": "^9.2.1"
-  },
-  "dependencies": {
-    "react-toastify": "^11.0.5"
-  }
+  "license": "MIT",
+  "description": "Live disaster alerts and a preparedness academy for India and the world. Free, open source, no paid services.",
+  "private": true
 }

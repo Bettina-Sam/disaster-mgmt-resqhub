@@ -78,7 +78,7 @@ export default function AgingBacklog({ items, onOpen }) {
                 className="d-flex justify-content-between align-items-center p-2 rounded border"
                 style={{ borderColor: "rgba(255,255,255,.1)" }}
               >
-                <div className="me-2">
+                <div className="me-2" style={{ minWidth: 0 }}>
                   <div className="fw-semibold text-truncate" title={i.title}>
                     {i.title}
                   </div>

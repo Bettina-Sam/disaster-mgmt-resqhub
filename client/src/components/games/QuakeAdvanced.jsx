@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import "./quake-advanced.css";
 
 import AdvUtilitiesPane from "./AdvUtilitiesPane";
@@ -78,6 +79,7 @@ export default function QuakeAdvanced({ onExit }) {
   // --------- scoring summary ----------
   const [score, setScore] = useState({ assess: 0, risk: 0, people: 0, time: 0, total: 0 });
   const [banner, setBanner] = useState(null); // { win, title, sub }
+  useEffect(() => { if (banner) recordGame("quake-advanced", !!banner.win); }, [banner]);
 
   // coach lines on phase change
   useEffect(() => {

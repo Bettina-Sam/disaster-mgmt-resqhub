@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import "./cyclone-medium.css";
 
 export default function CycloneMedium({ onBack }) {
@@ -52,6 +53,7 @@ export default function CycloneMedium({ onBack }) {
   const runningRef = useRef(false);
   const boardRef   = useRef(null);
   const [banner, setBanner] = useState(null); // {win, title, sub}
+  useEffect(() => { if (banner) recordGame("cyclone-medium", !!banner.win); }, [banner]);
 
   // Surge meter (rises with time) -> makes low bridge worse mid-run
   const [surge, setSurge] = useState(20); // 0..100

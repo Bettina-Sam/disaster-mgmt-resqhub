@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import "./quake-medium.css";
 
 export default function QuakeMedium({ onBack }) {
@@ -40,6 +41,7 @@ export default function QuakeMedium({ onBack }) {
   const runningRef = useRef(false);
   const boardRef   = useRef(null);
   const [banner, setBanner] = useState(null); // {win, title, sub}
+  useEffect(() => { if (banner) recordGame("quake-medium", !!banner.win); }, [banner]);
 
   // ---- voice coach ----
   function speak(t) {

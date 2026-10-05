@@ -1392,3 +1392,13 @@ label.bg-primary input.form-check-input {
 .rsq-source-status { padding: 8px 12px; border-radius: 12px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
 .rsq-alert-item { width: 100%; background: transparent; }
 .rsq-alert-item:focus-visible, .rsq-number-row:focus-visible, button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
+
+/* snake HUD */
+.snake-hud { position: fixed; right: 14px; bottom: 14px; z-index: 5; padding: 6px 12px; border-radius: 999px; font-size: .8rem; color: #cbd5e1; background: rgba(15,23,42,.7); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(6px); pointer-events: none; }
+
+/* free dark map: recolour OpenStreetMap tiles instead of using a keyed provider */
+.rsq-dark-tiles { filter: invert(1) hue-rotate(180deg) brightness(.92) contrast(.92) saturate(.8); }
+
+/* never let one wide child widen the whole page on phones */
+html, body { max-width: 100%; overflow-x: clip; }
+.card, .card-body { min-width: 0; }

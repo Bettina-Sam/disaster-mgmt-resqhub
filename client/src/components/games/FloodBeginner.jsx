@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import { toast } from "react-toastify";
 import "./flood-beginner.css";
 
@@ -24,6 +25,7 @@ export default function FloodBeginner({ onExit }) {
   const [bag, setBag]   = useState([]);
   const [streak, setStreak] = useState(0);
   const [banner, setBanner] = useState(null);
+  useEffect(() => { if (banner) recordGame("flood-beginner", !!banner.win); }, [banner]);
   const [carry, setCarry] = useState(null);
   const carryRef = useRef(null);
 

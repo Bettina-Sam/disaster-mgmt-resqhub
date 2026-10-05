@@ -66,7 +66,7 @@ function FitBounds({ items, coords, region, me }) {
 
 const BASEMAPS = {
   street: { name: "Street (OSM)", url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' },
-  dark: { name: "Dark (CARTO)", url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", attribution: '&copy; OpenStreetMap contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' },
+  dark: { name: "Dark (OSM, filtered)", url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", className: "rsq-dark-tiles", attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' },
   topo: { name: "Topo (OpenTopoMap)", url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", attribution: "Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap" },
 };
 
@@ -102,7 +102,7 @@ export default function MapView({ items, region = "IN", me, pickOnMap, coords, s
       </div>
 
       <MapContainer center={INDIA_VIEW.center} zoom={INDIA_VIEW.zoom} minZoom={2} worldCopyJump style={{ height: 420, width: "100%", borderRadius: 12 }}>
-        <TileLayer key={base} url={bm.url} attribution={bm.attribution} />
+        <TileLayer key={base} url={bm.url} attribution={bm.attribution} className={bm.className} />
         <FitBounds items={items} coords={coords} region={region} me={me} />
         <HeatLayer points={heatPoints} />
 

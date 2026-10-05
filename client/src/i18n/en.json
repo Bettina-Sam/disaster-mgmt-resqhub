@@ -128,7 +128,7 @@
   "hero_data_line": "Data: USGS · GDACS (UN/EU) · NASA EONET · OpenStreetMap",
   "btn_academy": "Learn to prepare",
   "btn_assistant": "Ask ResQVoice",
-  "region_india": "India",
+  "region_india": "India & nearby",
   "region_world": "World",
   "india_quiet": "No tracked hazards in India right now. Switch to World to see the rest of the planet.",
   "show_world": "Show world",
@@ -180,5 +180,17 @@
   "fact_free": "Cost to use",
   "feat_offline": "Works offline",
   "feat_offline_sub": "Install it on your phone. Emergency numbers, guidance and the last data you loaded stay available without internet.",
-  "you_are_here": "You are here"
+  "you_are_here": "You are here",
+  "guide_title": "ResQ says",
+  "guide_critical": "Critical event:",
+  "guide_high": "Heads up:",
+  "guide_calm": "All quiet in your region right now. A good moment to practise a drill.",
+  "guide_drill": "Play a drill",
+  "guide_click": "Click me for a tip",
+  "tip_1": "Keep a charged power bank and a torch where you can find them in the dark.",
+  "tip_2": "Save 112 and two family numbers on paper too. Phones die.",
+  "tip_3": "Agree a family meeting point outside your home and outside your area.",
+  "tip_4": "Keep 3 days of drinking water: about 3 litres per person per day.",
+  "tip_5": "Earthquake: drop, cover, hold on. Do not run outside while it shakes.",
+  "tip_6": "Never walk or drive through flood water. 15 cm of moving water can knock you down."
 }

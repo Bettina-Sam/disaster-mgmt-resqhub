@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import "./cyclone-advanced.css";
 
 /**
@@ -202,6 +203,7 @@ export default function CycloneAdvanced({ onExit }) {
   const label = (id)=> KIT_TYPES.find(k=>k.id===id)?.label || id;
 
   function finish(win,title,sub){
+    recordGame("cyclone-advanced", !!win);
     setPhase("END");
     if (win) {
       // micro-confetti

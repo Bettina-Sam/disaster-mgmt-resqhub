@@ -2,6 +2,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getQuizById, DISASTER_EMOJI } from "../data/quizzes";
+import { getLessonResult, setLessonResult } from "../utils/progress";
 
 export default function Quiz() {
   const { id } = useParams();
@@ -43,6 +44,11 @@ export default function Quiz() {
     const pct = Math.round((correct / quiz.questions.length) * 100);
     setScore(pct);
     setDone(true);
+    // Keep the best result per quiz so the certificate can be unlocked later.
+    const prev = getLessonResult(quiz.id);
+    if (!prev || pct >= prev.score) {
+      setLessonResult(quiz.id, { score: pct, passed: pct >= quiz.passingScore || Boolean(prev?.passed), title: quiz.title });
+    }
   };
 
   return (
@@ -118,7 +124,7 @@ export default function Quiz() {
             <div className="d-flex gap-2">
               <button className="btn btn-outline-primary" onClick={()=>navigate("/academy?tab=quizzes")}>Back to Quizzes</button>
               {score >= quiz.passingScore && (
-                <button className="btn btn-primary" onClick={()=>navigate("/academy/certificate")}>
+                <button className="btn btn-primary" onClick={()=>navigate(`/academy/certificate?quiz=${encodeURIComponent(quiz.id)}&course=${encodeURIComponent(quiz.title)}`)}>
                   Get Certificate
                 </button>
               )}

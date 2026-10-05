@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import { toast } from "react-toastify";
 
 /** ------------------ tiny coach bubble (reuse flood styles .coach-bubble) ------------------ **/
@@ -48,6 +49,7 @@ export default function FireAdvanced({ onExit }) {
   const [marker, setMarker] = useState(startPt);
   const [coach, setCoach] = useState(null);
   const [banner, setBanner] = useState(null);
+  useEffect(() => { if (banner) recordGame("fire-advanced", !!banner.win); }, [banner]);
 
   const firesRef = useRef(fires);
   useEffect(() => { firesRef.current = fires; }, [fires]);

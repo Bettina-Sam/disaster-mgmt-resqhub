@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import "./flood-advanced.css";
 
 /**
@@ -36,6 +37,7 @@ export default function FloodAdvanced({ onExit }) {
   const [state, setState] = useState("IDLE"); // IDLE | PLAY | END
   const [coach, setCoach] = useState(true);
   const [banner, setBanner] = useState(null);
+  useEffect(() => { if (banner) recordGame("flood-advanced", !!banner.win); }, [banner]);
 
   // Speech
   function speak(t) {

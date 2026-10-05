@@ -21,6 +21,7 @@ import AlertsPanel from "../components/AlertsPanel";
 import ShelterPanel from "../components/ShelterPanel";
 import SourceStatus from "../components/SourceStatus";
 import EmergencyNumbers from "../components/EmergencyNumbers";
+import MascotGuide from "../components/MascotGuide";
 
 import useAlertSounds from "../hooks/useAlertSounds";
 import { useLanguage } from "../contexts/LanguageContext";
@@ -221,7 +222,8 @@ export default function Dashboard() {
           </div>
 
           <div className="col-lg-4">
-            <EmergencyNumbers />
+            <MascotGuide items={items} region={filter.region} onOpen={setActive} />
+            <div className="mt-3"><EmergencyNumbers /></div>
             <div className="mt-3"><AlertsPanel items={items} region={filter.region} onOpen={setActive} /></div>
             <div className="mt-3"><ShelterPanel me={me} onLocate={locateMe} /></div>
             <div className="mt-3"><OpsSnapshot items={playbackItems} /></div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import { toast } from "react-toastify";
 
 const ALL = [
@@ -19,6 +20,7 @@ export default function AccidentBeginner({ onExit }) {
   const [bag, setBag] = useState([]);
   const [items, setItems] = useState(() => ALL.slice().sort(()=>Math.random()-0.5));
   const [banner, setBanner] = useState(null);
+  useEffect(() => { if (banner) recordGame("accident-beginner", !!banner.win); }, [banner]);
   const dropRef = useRef(null);
 
   useEffect(()=>{ if(state!=="PLAY") return; const t=setInterval(()=>setSec(s=>s>0?s-1:0),1000); return ()=>clearInterval(t); },[state]);
@@ -31,9 +33,11 @@ export default function AccidentBeginner({ onExit }) {
   const end=(win,title,sub)=>{ setState("END"); setBanner({win,title,sub}); if(win){confetti();toast.success(title);} else {toast.info(title);} };
 
   const onDragStart=(e,id)=> e.dataTransfer.setData("text/plain", id);
-  const onDrop=(e)=>{ e.preventDefault(); const id=e.dataTransfer.getData("text/plain"); if(!id) return;
+  const onDrop=(e)=>{ e.preventDefault(); pack(e.dataTransfer.getData("text/plain")); };
+  // Shared by drag-and-drop and tap/Enter, so the game also works on phones and with a keyboard.
+  const pack=(id)=>{ if(!id || state!=="PLAY") return;
     if(bag.includes(id)) return;
-    const it=items.find(x=>x.id===id);
+    const it=items.find(x=>x.id===id); if(!it) return;
     setBag(b=>[...b,id]);
     if(it.ok){
       const n = bag.filter(x=>items.find(y=>y.id===x)?.ok).length+1;
@@ -49,7 +53,7 @@ export default function AccidentBeginner({ onExit }) {
       <div className="d-flex align-items-center justify-content-between mb-2">
         <div>
           <h5 className="mb-0">🚑 Accident — Beginner (First-Aid Grab)</h5>
-          <small className="g-muted">Drag essentials into the kit. Avoid decoys.</small>
+          <small className="g-muted">Drag, tap or press Enter on the essentials to put them in the kit. Avoid decoys.</small>
         </div>
         <div className="d-flex align-items-center gap-2">
           <span className="g-pill">⏱ {sec}s</span>
@@ -66,7 +70,10 @@ export default function AccidentBeginner({ onExit }) {
               const used = bag.includes(it.id);
               return (
                 <div key={it.id} className={`inv-item ${used?"g-good":""}`} draggable={!used}
-                     onDragStart={(e)=>onDragStart(e,it.id)}>
+                     onDragStart={(e)=>onDragStart(e,it.id)}
+                     role="button" tabIndex={used?-1:0} aria-label={`Pack ${it.label}`}
+                     onClick={()=>pack(it.id)}
+                     onKeyDown={(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); pack(it.id); } }}>
                   <div className="emo-lg g-dance">{it.emoji}</div>
                   <div className="fw-semibold">{it.label}</div>
                 </div>

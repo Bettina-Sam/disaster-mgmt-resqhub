@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import { toast } from "react-toastify";
 
 export default function FloodMedium({ onExit }) {
@@ -11,6 +12,7 @@ export default function FloodMedium({ onExit }) {
   const [bags,setBags]=useState([]);
   const [water,setWater]=useState(0); // 0..100 fill
   const [banner,setBanner]=useState(null);
+  useEffect(() => { if (banner) recordGame("flood-medium", !!banner.win); }, [banner]);
 
   function makeGaps(cols, lvl){
     // create 3+lvl gaps indices

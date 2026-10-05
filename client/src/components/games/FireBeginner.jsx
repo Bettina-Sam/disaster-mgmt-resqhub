@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import { toast } from "react-toastify";
 
 const W = 8, H = 5;                            // grid size
@@ -15,6 +16,7 @@ export default function FireBeginner({ onExit }) {
   const [pos,setPos]=useState(START);
   const [hasExt,setHasExt]=useState(false);
   const [banner,setBanner]=useState(null);
+  useEffect(() => { if (banner) recordGame("fire-beginner", !!banner.win); }, [banner]);
   const [carry,setCarry]=useState(null); // on-screen arrow focus
   const boardRef = useRef(null);
 

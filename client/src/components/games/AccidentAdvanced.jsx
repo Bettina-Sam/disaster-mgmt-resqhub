@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import { toast } from "react-toastify";
 
 // simple cues → expected tag
@@ -31,6 +32,7 @@ export default function AccidentAdvanced({ onExit }) {
   const [state,setState]=useState("IDLE"); // IDLE | PLAY | END
   const [victims,setVictims]=useState(()=>makeVictims());
   const [banner,setBanner]=useState(null); // {win,title,sub}
+  useEffect(() => { if (banner) recordGame("accident-advanced", !!banner.win); }, [banner]);
   const [review,setReview]=useState([]);   // [{...} as built in finish()]
   const [coachOn,setCoachOn] = useState(true);
 

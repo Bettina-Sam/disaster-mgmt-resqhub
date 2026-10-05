@@ -30,6 +30,40 @@ import AccidentBeginner from "../components/games/AccidentBeginner";
 import AccidentMedium   from "../components/games/AccidentMedium";
 import AccidentAdvanced from "../components/games/AccidentAdvanced";
 
+import { loadGames, summary, HAZARDS, LEVELS } from "../utils/gameProgress";
+
+const HAZARD_LABEL = { flood: "🌊 Flood", fire: "🔥 Fire", cyclone: "🌀 Cyclone", quake: "🌍 Quake", accident: "🚗 Accident" };
+
+// Which of the 15 games you have won at least once (stored on this device).
+function GameProgress() {
+  const all = loadGames();
+  const s = summary(all);
+  return (
+    <div className="g-card p-3 mb-3" aria-label="Your game progress">
+      <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+        <strong>Your progress: {s.won} of {s.total} games won</strong>
+        <span className="g-muted small">{s.plays} plays · saved on this device</span>
+      </div>
+      <div className="d-flex flex-wrap gap-3">
+        {HAZARDS.map((h) => (
+          <div key={h} className="small">
+            <span className="me-2">{HAZARD_LABEL[h]}</span>
+            {LEVELS.map((l) => {
+              const g = all[`${h}-${l}`];
+              return (
+                <span key={l} title={`${l}: ${g ? `${g.wins} wins / ${g.plays} plays` : "not played"}`} className="me-1">
+                  {g?.wins > 0 ? "✅" : g?.plays ? "🟡" : "⬜"}
+                </span>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+      <div className="g-muted small mt-1">⬜ not played · 🟡 played · ✅ won. Order: beginner, medium, advanced.</div>
+    </div>
+  );
+}
+
 export default function Games() {
   const [screen, setScreen] = useState({ mode: "HUB" }); // HUB | PLAY | COMING
   const loc = useLocation();
@@ -63,6 +97,7 @@ export default function Games() {
           <Link to="/academy" className="btn g-btn-soft btn-sm">Back to Academy</Link>
         </div>
 
+        {screen.mode === "HUB" && <GameProgress />}
         {screen.mode === "HUB" && <GamesHub onStart={start} />}
 
         {screen.mode === "PLAY" && (

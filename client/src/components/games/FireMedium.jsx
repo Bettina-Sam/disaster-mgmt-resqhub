@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import { toast } from "react-toastify";
 
 // 3 scenarios -> correct tool mapping
@@ -22,6 +23,7 @@ export default function FireMedium({ onExit }) {
   const [done,setDone]=useState({}); // sceneId -> toolId
   const [carry,setCarry]=useState(null);
   const [banner,setBanner]=useState(null);
+  useEffect(() => { if (banner) recordGame("fire-medium", !!banner.win); }, [banner]);
 
   useEffect(()=>{ if(state!=="PLAY") return; const t=setInterval(()=>setSec(s=>s>0?s-1:0),1000); return ()=>clearInterval(t); },[state]);
   useEffect(()=>{ if(state==="PLAY" && sec===0) finish(); },[sec,state]);

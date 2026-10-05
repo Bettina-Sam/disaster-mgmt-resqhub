@@ -16,6 +16,12 @@ export default function SnakeOverlay({
   const [dir, setDir]   = useState({ x: 1, y: 0 });
   const [mode, setMode] = useState("auto"); // "auto" | "manual"
   const lastInputRef = useRef(0);
+  const lenRef = useRef(6);
+  const scoreRef = useRef(0);
+  const [score, setScore] = useState(0);
+  const [best, setBest] = useState(() => {
+    try { return Number(localStorage.getItem("rsq:snake:best")) || 0; } catch { return 0; }
+  });
 
   const [apples, setApples] = useState([
     { x: 8, y: 3 }, { x: COLS - 10, y: 4 }, { x: 7, y: ROWS - 6 }, { x: COLS - 9, y: ROWS - 7 }
@@ -88,6 +94,7 @@ export default function SnakeOverlay({
       // return to auto if idle
       if (modeRef.current === "manual" && ts - lastInputRef.current > idleMs) {
         setMode("auto"); modeRef.current = "auto";
+        lenRef.current = 6; scoreRef.current = 0; setScore(0);
       }
 
       setBody((prev) => {
@@ -114,7 +121,14 @@ export default function SnakeOverlay({
         const ny = Math.max(1, Math.min(ROWS - 2, head.y + nd.y));
         const newHead = { x: nx, y: ny };
 
-        const next = [newHead, ...prev.slice(0, 5)];
+        const manual = modeRef.current === "manual";
+        // Running into yourself ends the run (manual play only; the ambient auto snake never crashes).
+        if (manual && prev.slice(0, lenRef.current - 1).some((p) => p.x === newHead.x && p.y === newHead.y)) {
+          lenRef.current = 6;
+          scoreRef.current = 0;
+          setScore(0);
+        }
+        const next = [newHead, ...prev.slice(0, lenRef.current - 1)];
         bodyRef.current = next;
 
         // apples
@@ -123,6 +137,16 @@ export default function SnakeOverlay({
           const updated = old.map((a) => {
             if (a && a.x === newHead.x && a.y === newHead.y) {
               changed = true;
+              if (modeRef.current === "manual") {
+                lenRef.current += 1;
+                scoreRef.current += 1;
+                setScore(scoreRef.current);
+                setBest((b) => {
+                  const nb = Math.max(b, scoreRef.current);
+                  try { localStorage.setItem("rsq:snake:best", String(nb)); } catch { /* ignore */ }
+                  return nb;
+                });
+              }
               const p  = path[Math.floor(Math.random() * path.length)];
               const ox = [-1, 0, 1][Math.floor(Math.random() * 3)];
               const oy = [-1, 0, 1][Math.floor(Math.random() * 3)];
@@ -220,5 +244,16 @@ export default function SnakeOverlay({
     };
   }, [idleMs]); // only real external timing we rely on
 
-  return <canvas ref={canvasRef} className="snake-overlay-canvas" aria-hidden />;
+  return (
+    <>
+      <canvas ref={canvasRef} className="snake-overlay-canvas" aria-hidden />
+      <div className="snake-hud" role="status" aria-live="off">
+        {mode === "manual" ? (
+          <>🍎 {score} · best {best}</>
+        ) : (
+          <>Tip: press an arrow key or WASD to play the snake{best ? " · best " + best : ""}</>
+        )}
+      </div>
+    </>
+  );
 }

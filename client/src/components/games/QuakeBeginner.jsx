@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import "./quake-beginner.css";
 
 export default function QuakeBeginner({ onExit }) {
@@ -93,8 +94,9 @@ export default function QuakeBeginner({ onExit }) {
     if (!playing || time > 0) return;
     setPlaying(false);
     const chosen = currentShelter();
-    if (!chosen) { speak("Time up. Try to get under sturdy furniture next time."); return; }
+    if (!chosen) { recordGame("quake-beginner", false); speak("Time up. Try to get under sturdy furniture next time."); return; }
     const safe = SAFE_IDS.includes(chosen.id);
+    recordGame("quake-beginner", safe);
     speak(safe ? "Great choice. You picked a safer shelter."
                : "That wasn’t ideal. Choose sturdy furniture next time.");
   }, [time, playing]);

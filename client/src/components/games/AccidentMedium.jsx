@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { recordGame } from "../../utils/gameProgress";
 import "./accident-medium.css";
 
 export default function AccidentMedium({ onBack }) {
@@ -66,6 +67,7 @@ const fixedHazards = [
   const [got, setGot] = useState({});       // id -> true
   const [gotCount, setGotCount] = useState(0);
   const [banner, setBanner] = useState(null);
+  useEffect(() => { if (banner) recordGame("accident-medium", !!banner.win); }, [banner]);
   const boardRef = useRef(null);
 
   // helpers

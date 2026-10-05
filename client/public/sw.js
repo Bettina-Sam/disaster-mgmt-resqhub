@@ -38,7 +38,8 @@ self.addEventListener("fetch", (e) => {
       (hit) =>
         hit ||
         fetch(req).then((res) => {
-          if (res.ok) {
+          // Never cache the SPA fallback page under an asset URL (a deleted chunk would otherwise stick).
+          if (res.ok && !(res.headers.get("content-type") || "").includes("text/html")) {
             const copy = res.clone();
             caches.open(VERSION).then((c) => c.put(req, copy));
           }
