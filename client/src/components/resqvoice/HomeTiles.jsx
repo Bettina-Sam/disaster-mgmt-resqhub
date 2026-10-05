@@ -1,33 +1,27 @@
+import { useLanguage } from "../../contexts/LanguageContext";
+
 export default function HomeTiles({ onNavigate }) {
+  const { t } = useLanguage();
+  const tiles = [
+    { id: "talk", cls: "rv-grad-talk", emoji: "🧠💬", title: t("rv_talk"), sub: t("rv_talk_sub") },
+    { id: "calm", cls: "rv-grad-calm", emoji: "🫁🌬️", title: t("rv_calm"), sub: t("rv_calm_sub") },
+    { id: "grief", cls: "rv-grad-grief", emoji: "💗", title: t("rv_grief"), sub: t("rv_grief_sub") },
+    { id: "report", cls: "rv-grad-report", emoji: "🛟⚠️", title: t("rv_report"), sub: t("rv_report_sub") },
+  ];
   return (
     <section>
-      <h2 className="rv-h2">How can I help you today?</h2>
-      <p className="rv-sub">Choose an option below or just ask me with your voice</p>
+      <h2 className="rv-h2">{t("rv_help_title")}</h2>
+      <p className="rv-sub">{t("rv_help_sub")}</p>
 
       <div className="rv-grid">
-        <div role="button" className="rv-tile rv-grad-talk" onClick={() => onNavigate("talk")}>
-          <div className="rv-emoji">🧠💬</div>
-          <div className="rv-t">Talk</div>
-          <div className="rv-s">Chat with AI helper</div>
-        </div>
-
-        <div role="button" className="rv-tile rv-grad-calm" onClick={() => onNavigate("calm")}>
-          <div className="rv-emoji">🫁🌬️</div>
-          <div className="rv-t">Calm</div>
-          <div className="rv-s">Breathing exercises</div>
-        </div>
-
-        <div role="button" className="rv-tile rv-grad-grief" onClick={() => onNavigate("grief")}>
-          <div className="rv-emoji">💗</div>
-          <div className="rv-t">Grief</div>
-          <div className="rv-s">Gentle support</div>
-        </div>
-
-        <div role="button" className="rv-tile rv-grad-report" onClick={() => onNavigate("report")}>
-          <div className="rv-emoji">🛟⚠️</div>
-          <div className="rv-t">Report</div>
-          <div className="rv-s">Emergency help</div>
-        </div>
+        {tiles.map((x) => (
+          <div key={x.id} role="button" tabIndex={0} className={`rv-tile ${x.cls}`} onClick={() => onNavigate(x.id)}
+            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onNavigate(x.id)}>
+            <div className="rv-emoji">{x.emoji}</div>
+            <div className="rv-t">{x.title}</div>
+            <div className="rv-s">{x.sub}</div>
+          </div>
+        ))}
       </div>
     </section>
   );

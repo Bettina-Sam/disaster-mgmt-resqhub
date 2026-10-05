@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import GlobalVoiceFAB from "./components/GlobalVoiceFAB";
+import AutoTranslate from "./components/AutoTranslate";
 import Landing from "./pages/Landing";
 
 import { ToastContainer } from "react-toastify";
@@ -19,6 +20,7 @@ const ResQVoicePage = lazy(() => import("./pages/ResQVoicePage.jsx"));
 export default function App() {
   return (
     <>
+      <AutoTranslate />
       <NavBar />
 
       <main>

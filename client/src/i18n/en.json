@@ -227,5 +227,18 @@
   "do": "Do",
   "dont": "Don't",
   "quick_tips": "Quick tips",
-  "checklist": "Checklist"
+  "checklist": "Checklist",
+  "rv_voice_on": "Voice On",
+  "rv_voice_off": "Voice Off",
+  "rv_mic_tip": "Tap the mic and speak naturally",
+  "rv_help_title": "How can I help you today?",
+  "rv_help_sub": "Choose an option below or just ask me with your voice",
+  "rv_talk": "Talk",
+  "rv_talk_sub": "Chat with the safety assistant",
+  "rv_calm": "Calm",
+  "rv_calm_sub": "Breathing exercises",
+  "rv_grief": "Grief",
+  "rv_grief_sub": "Gentle support",
+  "rv_report": "Report",
+  "rv_report_sub": "Prepare an emergency message"
 }

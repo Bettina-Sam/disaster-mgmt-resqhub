@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./report.css";                 // <-- scoped styles for Report only
 import useASR from "../../hooks/useASR";
 import useTTS from "../../hooks/useTTS";
+import { createReport } from "../../services/liveService";
 
 /** Emergency types */
 const TYPES = [
@@ -28,6 +29,7 @@ export default function ReportPanel({ onClose, language="en-IN", voiceEnabled=tr
   const [urgency, setUrgency]   = useState(3);
   const [images, setImages]     = useState([]); // [{name, dataUrl, type, size}]
   const [err, setErr]           = useState("");
+  const [ready, setReady]       = useState(null); // { message } once the report text is built
 
   // voice
   const { speaking, speak, stop: stopTTS } = useTTS(language);
@@ -171,27 +173,66 @@ export default function ReportPanel({ onClose, language="en-IN", voiceEnabled=tr
       voiceEnabled && speak(t("Please add a few details.","சில விவரங்களைச் சேர்க்கவும்.","कृपया कुछ विवरण जोड़ें।"));
       return;
     }
-    try {
-      const body = {
-        type: rtype,
-        location: { text: locText, ...(coords||{}) },
-        details, peopleCount: people, urgency,
-        images, lang: language, client_ts: Date.now()
-      };
-      const res = await fetch("/api/report", {
-        method: "POST",
-        headers: { "Content-Type":"application/json" },
-        body: JSON.stringify(body)
+    // There is no dispatch backend, so this builds a message the user sends themselves.
+    const typeLabel = TYPES.find((x) => x.id === rtype)?.label?.[language] || "";
+    const mapLink = coords ? `https://www.google.com/maps/search/?api=1&query=${coords.lat},${coords.lng}` : "";
+    const message = [
+      `🆘 ${typeLabel}`,
+      `📍 ${locText}${mapLink ? " " + mapLink : ""}`,
+      details,
+      `👥 ${people} · ${t("Urgency","அவசரம்","आपात")} ${urgency}/5`,
+    ].join("\n");
+    // Also keep it on this device as an unverified marker, if we know where it is.
+    if (coords) {
+      createReport({
+        title: `${typeLabel}: ${details.slice(0, 60)}`,
+        type: rtype === "earthquake" ? "EARTHQUAKE" : rtype === "other" ? "OTHER" : String(rtype).toUpperCase(),
+        severity: urgency >= 5 ? "CRITICAL" : urgency >= 4 ? "HIGH" : urgency >= 3 ? "MEDIUM" : "LOW",
+        description: details,
+        address: locText,
+        location: { lat: coords.lat, lng: coords.lng },
+        reportedBy: "ResQVoice",
       });
-      if (!res.ok) throw new Error("server");
-      voiceEnabled && speak(t("Report sent. Help is on the way. Stay safe.",
-                              "அறிக்கை அனுப்பப்பட்டது. உதவி வருகிறது. பாதுகாப்பாக இருங்கள்.",
-                              "रिपोर्ट भेजी गई। मदद रास्ते में है। सुरक्षित रहें।"));
-      onSubmitted?.(); onClose();
-    } catch {
-      setErr(t("Network error. Please try again.","பிணைய வழு. மீண்டும் முயற்சி செய்யவும்.","नेटवर्क त्रुटि। फिर कोशिश करें।"));
     }
+    setReady({ message });
+    voiceEnabled && speak(t("Your report is ready. Please call 112 now and share this message.",
+                            "உங்கள் அறிக்கை தயார். இப்போதே 112-ஐ அழைத்து இந்தச் செய்தியைப் பகிருங்கள்.",
+                            "आपकी रिपोर्ट तैयार है। अभी 112 पर कॉल करें और यह संदेश साझा करें।"));
   };
+
+  const copyMsg = async () => { try { await navigator.clipboard.writeText(ready.message); setErr(t("Copied","நகலெடுக்கப்பட்டது","कॉपी हो गया")); } catch { setErr(t("Could not copy","நகலெடுக்க முடியவில்லை","कॉपी नहीं हो सका")); } };
+
+  if (ready) {
+    const enc = encodeURIComponent(ready.message);
+    return (
+      <div className="rv-report">
+        <div className="card">
+          <div className="heading" style={{ justifyContent: "space-between" }}>
+            <div>✅ {t("Your report is ready","உங்கள் அறிக்கை தயார்","आपकी रिपोर्ट तैयार है")}</div>
+            <button className="chip" onClick={onClose}>✕</button>
+          </div>
+          <div className="panel" style={{ display: "grid", gap: 12 }}>
+            <div className="err" style={{ background: "rgba(239,68,68,.15)" }}>
+              {t("ResQHub cannot send help. For a real emergency, call 112 now and read or share this message.",
+                 "ResQHub உதவி அனுப்ப முடியாது. உண்மையான அவசரத்தில் இப்போதே 112-ஐ அழைத்து இந்தச் செய்தியைப் படியுங்கள் அல்லது பகிருங்கள்.",
+                 "ResQHub मदद नहीं भेज सकता। असली आपात स्थिति में अभी 112 पर कॉल करें और यह संदेश पढ़ें या साझा करें।")}
+            </div>
+            <pre style={{ whiteSpace: "pre-wrap", margin: 0, fontFamily: "inherit" }}>{ready.message}</pre>
+            <div className="row-actions" style={{ flexWrap: "wrap" }}>
+              <a className="btn" href="tel:112">📞 112</a>
+              <a className="btn alt" href={`https://wa.me/?text=${enc}`} target="_blank" rel="noreferrer">💬 WhatsApp</a>
+              <a className="btn alt" href={`sms:?&body=${enc}`}>✉️ SMS</a>
+              <button className="btn alt" onClick={copyMsg}>📋 {t("Copy","நகலெடு","कॉपी")}</button>
+            </div>
+            {err && <div className="hint">{err}</div>}
+            <div className="hint">{t("A copy is also on the dashboard map, marked unverified (this device only).",
+                                      "ஒரு நகல் டாஷ்போர்டு வரைபடத்திலும் சரிபார்க்கப்படாததாகக் குறிக்கப்பட்டுள்ளது (இந்த சாதனத்தில் மட்டும்).",
+                                      "एक प्रति डैशबोर्ड के नक्शे पर भी असत्यापित के रूप में है (केवल इसी डिवाइस पर)।")}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="rv-report">
@@ -317,14 +358,14 @@ export default function ReportPanel({ onClose, language="en-IN", voiceEnabled=tr
             </div>
 
             <div className="hint agree">
-              {t("By sending, you agree to share this info with helpers.",
-                 "அனுப்புவதால், உதவியாளர்களுடன் பகிர்வதற்கு சம்மதிக்கிறீர்கள்.",
-                 "भेजकर, आप यह जानकारी मददगारों से साझा करने के लिए सहमत हैं।")}
+              {t("Nothing is sent from this app. You choose how to share the message.",
+                 "இந்த செயலியிலிருந்து எதுவும் அனுப்பப்படாது. செய்தியை எப்படிப் பகிர்வது என்பதை நீங்கள் தேர்ந்தெடுக்கலாம்.",
+                 "इस ऐप से कुछ नहीं भेजा जाता। संदेश कैसे साझा करना है, यह आप चुनते हैं।")}
             </div>
 
             <div className="row-actions">
               <button className="btn alt" onClick={goBack}>{t("Back","பின்னால்","वापस")}</button>
-              <button className="btn" onClick={submit}>{t("Confirm report","அறிக்கையை உறுதிப்படுத்து","रिपोर्ट की पुष्टि करें")}</button>
+              <button className="btn" onClick={submit}>{t("Create message","செய்தியை உருவாக்கு","संदेश बनाएँ")}</button>
             </div>
           </div>
         )}

@@ -1422,7 +1422,7 @@ html, body { max-width: 100%; overflow-x: clip; }
 }
 
 /* ---- snake banner (inside the hero) ---- */
-.snake-banner { position: absolute; left: 0; right: 0; bottom: 0; height: 118px; z-index: 1; pointer-events: none; overflow: hidden; opacity: .55; transition: opacity .3s; }
+.snake-banner { position: absolute; left: 0; right: 0; bottom: 0; height: 92px; z-index: 1; pointer-events: none; overflow: hidden; opacity: .55; transition: opacity .3s; }
 .snake-banner canvas { display: block; }
 .snake-banner.is-playing { top: 0; height: auto; z-index: 6; opacity: 1; pointer-events: auto; touch-action: none; background: color-mix(in srgb, var(--bs-body-bg) 88%, transparent); }
 .snake-controls { position: absolute; left: 16px; bottom: 12px; display: flex; align-items: center; gap: 10px; pointer-events: auto; }
@@ -1439,3 +1439,25 @@ html, body { max-width: 100%; overflow-x: clip; }
 /* ---- explain-this-page ---- */
 .rsq-explain { position: relative; }
 .rsq-explain-panel { position: absolute; right: 0; top: calc(100% + 10px); width: min(380px, 92vw); z-index: 1200; padding: 14px 16px; border-radius: 16px; background: var(--bs-body-bg); color: var(--bs-body-color); border: 1px solid var(--glass-border); box-shadow: 0 18px 50px rgba(0,0,0,.35); font-size: .92rem; line-height: 1.55; }
+
+/* games page heading follows the page theme (the arcade panels below it are always dark) */
+.games-root .g-wrap > .d-flex h3 { color: var(--bs-body-color); }
+
+/* games stage: dark arcade palette regardless of the site theme */
+.games-root .g-stage {
+  --g-ink: var(--g-ink-dark); --g-muted: var(--g-muted-dark); --g-card: var(--g-card-dark); --g-cardHi: var(--g-cardHi-dark);
+  --g-border: var(--g-border-dark); --g-soft: var(--g-soft-dark); --g-accent: var(--g-accent-dark); --g-accentSoft: var(--g-accentSoft-dark);
+  --g-shadow: 0 10px 30px rgba(0,0,0,.35);
+  color: var(--g-ink);
+}
+.games-root .g-stage { background: radial-gradient(1200px 500px at 50% -10%, #17224a 0%, #0b1020 60%); border-radius: 20px; padding: 12px; border: 1px solid rgba(255,255,255,.08); }
+
+/* long Hindi/Tamil words must wrap on phones instead of being clipped */
+.rsq-hero-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); }
+@media (max-width: 900px) { .rsq-hero-grid { grid-template-columns: minmax(0, 1fr); } }
+.rsq-hero-copy, .rsq-guide, .rsq-guide-bubble { min-width: 0; }
+.rsq-hero-title, .rsq-hero-sub, .rsq-hero-badge, .rsq-guide-bubble { overflow-wrap: anywhere; }
+.rsq-hero-badge { max-width: 100%; white-space: normal; }
+html[lang="ta"] .rsq-hero-title, html[lang="hi"] .rsq-hero-title { font-size: clamp(1.55rem, 5.2vw, 3rem); line-height: 1.25; }
+/* keep the hero copy clear of the snake strip */
+.rsq-hero-split { padding-bottom: 120px; }

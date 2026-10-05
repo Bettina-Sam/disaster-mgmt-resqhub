@@ -39,7 +39,7 @@ function GameProgress() {
   const all = loadGames();
   const s = summary(all);
   return (
-    <div className="g-card p-3 mb-3" aria-label="Your game progress">
+    <div className="g-card p-3 mb-3" aria-label="Your game progress" data-bs-theme="dark">
       <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
         <strong>Your progress: {s.won} of {s.total} games won</strong>
         <span className="g-muted small">{s.plays} plays · saved on this device</span>
@@ -97,6 +97,8 @@ export default function Games() {
           <Link to="/academy" className="btn g-btn-soft btn-sm">Back to Academy</Link>
         </div>
 
+        {/* The games are an arcade: always dark, whatever the site theme is. */}
+        <div className="g-stage" data-bs-theme="dark">
         {screen.mode === "HUB" && <GameProgress />}
         {screen.mode === "HUB" && <GamesHub onStart={start} />}
 
@@ -131,6 +133,7 @@ export default function Games() {
             <button className="btn g-btn-soft" onClick={back}>Back to Games</button>
           </div>
         )}
+        </div>
       </div>
     </div>
   );

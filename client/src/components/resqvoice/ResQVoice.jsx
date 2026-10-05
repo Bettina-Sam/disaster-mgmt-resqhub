@@ -1,77 +1,63 @@
 "use client";
 import { useState } from "react";
 import "./resqvoice.css";
+import { useLanguage } from "../../contexts/LanguageContext";
 
-// ✅ USE RELATIVE IMPORTS (no "@/")
 import HomeTiles from "./HomeTiles";
 import TalkPanel from "./TalkPanel";
 import CalmPanel from "./CalmPanel";
 import GriefPanel from "./GriefPanel";
 import ReportPanel from "./ReportPanel";
 
+const TO_VOICE = { en: "en-IN", hi: "hi-IN", ta: "ta-IN" };
+const FROM_VOICE = { "en-IN": "en", "hi-IN": "hi", "ta-IN": "ta" };
+
 export default function ResQVoice() {
-  const [mode, setMode] = useState("home");        // "home" | "talk" | "calm" | "grief" | "report"
-  const [language, setLanguage] = useState("en-IN");
+  const { language: siteLang, setLanguage: setSiteLang, t } = useLanguage();
+  const [mode, setMode] = useState("home"); // "home" | "talk" | "calm" | "grief" | "report"
   const [voiceEnabled, setVoiceEnabled] = useState(true);
 
-  const lullabyController = (msg) => {
-    console.log("lullaby action:", msg);
-  };
+  // One language for the whole site: the panels get the matching voice locale.
+  const language = TO_VOICE[siteLang] || "en-IN";
+  const setLanguage = (l) => setSiteLang(FROM_VOICE[l] || "en");
 
   return (
-    <div className="resqvoice" style={{ background: "#0f1623", minHeight: "100vh", color: "#fff" }}>
-      {/* Header */}
+    <div className="resqvoice" data-explain="resqvoice">
       <div className="rv-header">
         <div className="rv-header-inner">
           <div className="rv-badge">🛟</div>
           <div className="rv-title">ResQVoice</div>
           <div style={{ marginLeft: "auto", display: "flex", gap: 10 }}>
-            <select className="rv-select" value={language} onChange={(e) => setLanguage(e.target.value)}>
-              <option value="en-IN">English</option>
-              <option value="ta-IN">தமிழ்</option>
-              <option value="hi-IN">हिन्दी</option>
-            </select>
-            <button
-              className={`rv-voice ${voiceEnabled ? "" : "off"}`}
-              onClick={() => setVoiceEnabled((v) => !v)}
-            >
-              {voiceEnabled ? "🔊 Voice On" : "🔈 Voice Off"}
+            <button className={`rv-voice ${voiceEnabled ? "" : "off"}`} onClick={() => setVoiceEnabled((v) => !v)} aria-pressed={voiceEnabled}>
+              {voiceEnabled ? `🔊 ${t("rv_voice_on")}` : `🔈 ${t("rv_voice_off")}`}
             </button>
           </div>
         </div>
       </div>
 
-      {/* MAIN */}
       <main className="rv-main">
-        {mode === "home"   && <HomeTiles onNavigate={setMode} />}
+        {mode === "home" && <HomeTiles onNavigate={setMode} />}
 
-        {mode === "talk"   && (
+        {mode === "talk" && (
           <TalkPanel
             onClose={() => setMode("home")}
             language={language}
             voiceEnabled={voiceEnabled}
-            onMusic={(m) => lullabyController(m)}
+            onMusic={() => {}}
             onNavigate={(session) => setMode(session)}
             onLang={(l) => setLanguage(l)}
           />
         )}
 
-        {mode === "calm"   && <CalmPanel  onClose={() => setMode("home")} language={language} />}
-        {mode === "grief"  && <GriefPanel onClose={() => setMode("home")} language={language} />}
-        {mode === "report" && <ReportPanel onClose={() => setMode("home")} language={language} />}
+        {mode === "calm" && <CalmPanel onClose={() => setMode("home")} language={language} />}
+        {mode === "grief" && <GriefPanel onClose={() => setMode("home")} language={language} />}
+        {mode === "report" && <ReportPanel onClose={() => setMode("home")} language={language} voiceEnabled={voiceEnabled} />}
       </main>
 
-      {/* Bottom mic */}
       <div className="rv-micbar">
         <div className="rv-mic-inner">
-          <button className="rv-mic" aria-label="Voice mic">🎤</button>
-          <div className="rv-tip">
-            {language === "ta-IN"
-              ? "மைக் தட்டவும். இயல்பாகப் பேசுங்கள்."
-              : language === "hi-IN"
-              ? "माइक टैप करें और सामान्य रूप से बोलें."
-              : "Tap the mic and speak naturally"}
-          </div>
+          <button className="rv-mic" aria-label={t("rv_mic_tip")} onClick={() => setMode("talk")}>🎤</button>
+          <div className="rv-tip">{t("rv_mic_tip")}</div>
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ const sevClass = (s) =>
 const TYPE_ICON = { FLOOD: "🌊", FIRE: "🔥", EARTHQUAKE: "🌍", ACCIDENT: "🚗", CYCLONE: "🌀", OTHER: "⚡" };
 
 export default function EmergencyList({ items, onOpen, onStatusChange, onDelete }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const del = (row) => {
     if (window.confirm(`Delete "${row.title}"?`)) onDelete(row._id);
@@ -68,7 +68,7 @@ export default function EmergencyList({ items, onOpen, onStatusChange, onDelete 
                     </td>
                     <td>
                       <span className="small text-muted">
-                        {new Date(row.createdAt).toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}
+                        {new Date(row.createdAt).toLocaleString(language === "en" ? "en-IN" : language + "-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}
                       </span>
                     </td>
                     <td>

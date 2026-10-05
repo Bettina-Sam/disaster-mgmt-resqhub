@@ -26,7 +26,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="rsq-footer mt-auto bg-dark border-top border-secondary-subtle">
+    <footer className="rsq-footer mt-auto bg-dark border-top border-secondary-subtle" data-bs-theme="dark">
       <div className="container-xxl py-4">
         <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
           

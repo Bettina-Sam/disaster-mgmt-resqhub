@@ -86,3 +86,11 @@
 }
 .resqvoice .rv-mic:active { transform: scale(.96); }
 .resqvoice .rv-tip { font-size: 13px; color: var(--muted); }
+
+/* Light theme: page chrome follows the site theme. Panels stay dark cards for contrast. */
+[data-bs-theme="light"] .resqvoice { --bg: #eef2ff; --card: #ffffff; --panel: #f8fafc; --border: rgba(15,23,42,.14); --white: #0f172a; --muted: #475569; }
+[data-bs-theme="light"] .resqvoice .rv-header { background: rgba(255,255,255,.88); }
+[data-bs-theme="light"] .resqvoice .rv-voice.off { background: #e2e8f0; color: #0f172a; }
+[data-bs-theme="light"] .resqvoice .rv-micbar { background: rgba(255,255,255,.94); }
+.resqvoice .rv-tile { color: #fff; }
+.resqvoice .rv-tile:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }

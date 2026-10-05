@@ -88,6 +88,7 @@ export default function GamesHub({ onStart }) {
   return (
     <div
       className="gh-root"
+      data-bs-theme="dark" /* the arcade panel is always dark, so Bootstrap colours inside it must be the dark ones */
       style={{
         ["--accent"]: `hsl(${dMeta.hue} 92% 62%)`,
         ["--accent-weak"]: `hsl(${dMeta.hue} 92% 20% / .45)`,
